@@ -14500,12 +14500,12 @@ Name: Close, Length: 248, dtype: float64</pre>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[126]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Sum of weights equals 1 (fully invested)</span>
-        <span class="n">weights</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># Non-negative weights</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> 
+        <span class="n">weights</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> 
         <span class="n">weights</span> <span class="o">&lt;=</span> <span class="mf">.1</span>
     <span class="p">]</span>
 </pre></div>
@@ -14599,6 +14599,11 @@ Name: Close, Length: 248, dtype: float64</pre>
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Final-Sharpe">Final Sharpe<a class="anchor-link" href="#Final-Sharpe">&#182;</a></h1>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14708,6 +14713,344 @@ Name: Close, Length: 248, dtype: float64</pre>
 
 </div>
 
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Second-Approach">Second Approach<a class="anchor-link" href="#Second-Approach">&#182;</a></h1><h4 id="Since-the-first-approach-we-ended-with-standard-deviation-greater-than-that-of-nifty-50,-we-try-to-the-next-approach-where-we-try-minimize-the-standard-deviation-(as-it-comes-in-the-denominator-of-the-sharpe-ratio).">Since the first approach we ended with standard deviation greater than that of nifty 50, we try to the next approach where we try minimize the standard deviation (as it comes in the denominator of the sharpe ratio).<a class="anchor-link" href="#Since-the-first-approach-we-ended-with-standard-deviation-greater-than-that-of-nifty-50,-we-try-to-the-next-approach-where-we-try-minimize-the-standard-deviation-(as-it-comes-in-the-denominator-of-the-sharpe-ratio).">&#182;</a></h4><h2 id="But-as-we-can-see-the-performance-sharpe-ratio-takes-an-big-hit-...">But as we can see the performance sharpe ratio takes an big hit ...<a class="anchor-link" href="#But-as-we-can-see-the-performance-sharpe-ratio-takes-an-big-hit-...">&#182;</a></h2>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[164]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">mean_returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">excess_mean_returns</span> <span class="o">=</span> <span class="n">mean_returns</span> <span class="o">-</span> <span class="n">daily_rfi</span>
+<span class="n">calc_std_dev</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)))</span>
+<span class="n">sharpe_ratio</span> <span class="o">=</span> <span class="n">excess_mean_returns</span> <span class="o">@</span> <span class="n">weights</span><span class="o">/</span><span class="n">calc_std_dev</span>
+<span class="n">cons</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> 
+        <span class="n">weights</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> 
+        <span class="n">weights</span> <span class="o">&lt;=</span> <span class="mf">.1</span>
+    <span class="p">]</span>
+<span class="n">problem</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">Minimize</span><span class="p">(</span><span class="n">calc_std_dev</span><span class="p">),</span> <span class="n">cons</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">qcp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[164]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0.01078552607927355</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[165]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Final-Sharpe">Final Sharpe<a class="anchor-link" href="#Final-Sharpe">&#182;</a></h1>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[166]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">excess_mean_returns</span><span class="o">@</span> <span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="n">std_dev</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[166]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0.01371698180763822</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Third-Approach">Third Approach<a class="anchor-link" href="#Third-Approach">&#182;</a></h1><h4 id="Next-we-try-gradient-descent-approach.-Modelled-w1-to-percent-returns-as-softmax,-that-leaves-with-only-one-constrain-that-the-w1">Next we try gradient descent approach. Modelled w1 to percent returns as softmax, that leaves with only one constrain that the w1<a class="anchor-link" href="#Next-we-try-gradient-descent-approach.-Modelled-w1-to-percent-returns-as-softmax,-that-leaves-with-only-one-constrain-that-the-w1">&#182;</a></h4>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[175]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we create a function to use derivatives</span>
+<span class="k">def</span> <span class="nf">sharpe_ratio</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">returns</span><span class="p">,</span> <span class="n">rfi</span><span class="p">):</span>
+    <span class="n">exp_wts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">ratios</span> <span class="o">=</span> <span class="n">exp_wts</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exp_wts</span><span class="p">)</span>
+    <span class="n">mean_returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">excess_mean_returns</span> <span class="o">=</span> <span class="n">mean_returns</span> <span class="o">-</span> <span class="n">daily_rfi</span>
+    <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">ratios</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">ratios</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">excess_mean_returns</span><span class="nd">@ratios</span><span class="o">/</span><span class="n">std_dev</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[163]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span> <span class="n">daily_rfi</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[163]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0.013716657493459516</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[189]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="c1"># right now the ratios are 1/50 = 0.02, which is within the limits</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1"># roughly estimated it to be 1/100 of the intial weights</span>
+<span class="n">learnt_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">sharpes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="c1"># we go for 1000 iterations or if the derivative is small enough(but no way to )</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+        <span class="n">new_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">new_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dw</span>
+        <span class="n">derivatives</span> <span class="o">=</span> <span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">new_weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">)</span> <span class="o">-</span> <span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">))</span><span class="o">/</span><span class="n">dw</span>
+        <span class="n">learnt_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">learning_rate</span><span class="o">*</span><span class="p">(</span><span class="n">derivatives</span><span class="p">)</span>
+    <span class="n">sharpes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">learnt_weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">))</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">learnt_weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">k</span><span class="o">%</span><span class="k">10000</span> == 0 and k!= 0:
+        <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span><span class="o">/</span><span class="mi">2</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>C:\Users\prakh\AppData\Local\Temp/ipykernel_24896/2453385891.py:7: TqdmDeprecationWarning: This function will be removed in tqdm==5.0.0
+Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`
+  for k in tqdm_notebook(range(30000)):
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+
+
+
+<div id="f79cb30f-976f-474f-b9e2-ff9816ffa3be" class="jupyter-widgets jp-OutputArea-output ">
+<script type="text/javascript">
+var element = document.getElementById('f79cb30f-976f-474f-b9e2-ff9816ffa3be');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "cf3f6b8dd7a04098ab1fa5d0e832a55b", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[190]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[191]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[191]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0.14323857682564747</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[184]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
