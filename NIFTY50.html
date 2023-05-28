@@ -14691,7 +14691,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[82]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[125]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
@@ -14703,7 +14703,7 @@ a.anchor-link {
         <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> 
         <span class="n">weights</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> 
         <span class="n">weights</span> <span class="o">&lt;=</span> <span class="mf">.1</span><span class="p">,</span>
-        <span class="n">cp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)))</span> <span class="o">&lt;=</span> <span class="n">nifty_standard_deviation</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">))</span><span class="o">&lt;=</span> <span class="n">nifty_standard_deviation</span><span class="o">**</span><span class="mi">2</span>
     <span class="p">]</span>
 <span class="n">problem</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">Maximize</span><span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">),</span> <span class="n">cons</span><span class="p">)</span>
 <span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">qcp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -14728,7 +14728,7 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Final Sharpe =  0.12555965692706425
+<pre>Final Sharpe =  0.1256087722849519
 </pre>
 </div>
 </div>
@@ -14740,7 +14740,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[126]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
@@ -14765,8 +14765,8 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>-1.0755327669916687e-06
-0.0999947880677985 3.838963066848376e-06
+<pre>3.628937428334922e-12
+0.09999999997093106 1.7228669427180657e-11
 </pre>
 </div>
 </div>
@@ -14783,27 +14783,27 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Fourth-Approach">Fourth Approach<a class="anchor-link" href="#Fourth-Approach">&#182;</a></h2><h4 id="Well-in-the-previous-approach-we-have-a-limit-on-the-function-to-make-it-concave,-by-removing-the-denominator.-But-by-doing-this-what-we-have-also-done-is-not-given-the-optimizer-and-incentive-of-bringing-down-the-standard-deviation(excpet)-which-plays-a-key-role-in-sharpe-ratio-maximization.-Since-we-still-have-to-matain-the-concavity-of-the-function,-hence-we-remove-the-sqrt-of-standard-deviation-make-it-variance,-and-subtract-it-from-the-function-earlier(Subtract-as-we-want-incentive-to-reduce-the-variance).-This-gives-the-optimizers-to-find-part-of-allowed-area-that-minimizes-the-standard-deviation-and-maximizes-the-exvcess-returns-as-well.">Well in the previous approach we have a limit on the function to make it concave, by removing the denominator. But by doing this what we have also done is not given the optimizer and incentive of bringing down the standard deviation(excpet) which plays a key role in sharpe ratio maximization. Since we still have to matain the concavity of the function, hence we remove the sqrt of standard deviation make it variance, and subtract it from the function earlier(Subtract as we want incentive to reduce the variance). This gives the optimizers to find part of allowed area that minimizes the standard deviation and maximizes the exvcess returns as well.<a class="anchor-link" href="#Well-in-the-previous-approach-we-have-a-limit-on-the-function-to-make-it-concave,-by-removing-the-denominator.-But-by-doing-this-what-we-have-also-done-is-not-given-the-optimizer-and-incentive-of-bringing-down-the-standard-deviation(excpet)-which-plays-a-key-role-in-sharpe-ratio-maximization.-Since-we-still-have-to-matain-the-concavity-of-the-function,-hence-we-remove-the-sqrt-of-standard-deviation-make-it-variance,-and-subtract-it-from-the-function-earlier(Subtract-as-we-want-incentive-to-reduce-the-variance).-This-gives-the-optimizers-to-find-part-of-allowed-area-that-minimizes-the-standard-deviation-and-maximizes-the-exvcess-returns-as-well.">&#182;</a></h4><p>\mbox{maximize} &amp; \mu^T w -  w^T\Sigma w\</p>
-<p>where $w \in {\bf \{0,.1\}}^n$ is the weights,  {\bf 1}^T w = 1, and $w^T\Sigma w$ &lt; $niftystandraddev^2 $.</p>
+<h2 id="Fourth-Approach">Fourth Approach<a class="anchor-link" href="#Fourth-Approach">&#182;</a></h2><h4 id="Well-in-the-previous-approach-we-have-a-limit-on-the-function-to-make-it-concave,-by-removing-the-denominator.-But-by-doing-this-what-we-have-also-done-is-not-given-the-optimizer-and-incentive-of-bringing-down-the-standard-deviation(excpet)-which-plays-a-key-role-in-sharpe-ratio-maximization.-Since-we-still-have-to-matain-the-concavity-of-the-function,-hence-we-remove-the-sqrt-of-standard-deviation-make-it-variance,-and-subtract-it-from-the-function-earlier(Subtract-as-we-want-incentive-to-reduce-the-variance).-This-gives-the-optimizers-to-find-part-of-allowed-area-that-minimizes-the-standard-deviation-and-maximizes-the-exvcess-returns-as-well.">Well in the previous approach we have a limit on the function to make it concave, by removing the denominator. But by doing this what we have also done is not given the optimizer and incentive of bringing down the standard deviation(excpet) which plays a key role in sharpe ratio maximization. Since we still have to matain the concavity of the function, hence we remove the sqrt of standard deviation make it variance, and subtract it from the function earlier(Subtract as we want incentive to reduce the variance). This gives the optimizers to find part of allowed area that minimizes the standard deviation and maximizes the exvcess returns as well.<a class="anchor-link" href="#Well-in-the-previous-approach-we-have-a-limit-on-the-function-to-make-it-concave,-by-removing-the-denominator.-But-by-doing-this-what-we-have-also-done-is-not-given-the-optimizer-and-incentive-of-bringing-down-the-standard-deviation(excpet)-which-plays-a-key-role-in-sharpe-ratio-maximization.-Since-we-still-have-to-matain-the-concavity-of-the-function,-hence-we-remove-the-sqrt-of-standard-deviation-make-it-variance,-and-subtract-it-from-the-function-earlier(Subtract-as-we-want-incentive-to-reduce-the-variance).-This-gives-the-optimizers-to-find-part-of-allowed-area-that-minimizes-the-standard-deviation-and-maximizes-the-exvcess-returns-as-well.">&#182;</a></h4><p>where $w \in {\bf \{0,.1\}}^n$ is the weights,  {\bf 1}^T w = 1, and $w^T\Sigma w$ &lt; $niftystandraddev^2 $.</p>
 <p>The objective $\mu^Tw -  w^T\Sigma w$.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[124]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">mean_returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">excess_mean_returns</span> <span class="o">=</span> <span class="n">mean_returns</span> <span class="o">-</span> <span class="n">daily_rfi</span>
 <span class="n">calc_std_dev</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)))</span>
-<span class="n">sharpe_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_mean_returns</span> <span class="o">@</span> <span class="n">weights</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">))</span>
+<span class="n">sharpe_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">excess_mean_returns</span> <span class="o">@</span> <span class="n">weights</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">))</span>
 <span class="n">cons</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> 
         <span class="n">weights</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> 
         <span class="n">weights</span> <span class="o">&lt;=</span> <span class="mf">.1</span><span class="p">,</span>
         <span class="n">cp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)))</span> <span class="o">&lt;=</span> <span class="n">nifty_standard_deviation</span>
+    
     <span class="p">]</span>
 <span class="n">problem</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">Maximize</span><span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">),</span> <span class="n">cons</span><span class="p">)</span>
 <span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">qcp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -14832,21 +14832,21 @@ a.anchor-link {
                                      CVXPY                                     
                                      v1.3.1                                    
 ===============================================================================
-(CVXPY) May 28 11:01:40 PM: Your problem has 50 variables, 4 constraints, and 0 parameters.
-(CVXPY) May 28 11:01:40 PM: It is compliant with the following grammars: DQCP
-(CVXPY) May 28 11:01:40 PM: (If you need to solve this problem multiple times, but with different data, consider using parameters.)
-(CVXPY) May 28 11:01:40 PM: CVXPY will first compile your problem; then, it will invoke a numerical solver to obtain a solution.
-(CVXPY) May 28 11:01:40 PM: Reducing DQCP problem to a one-parameter family of DCP problems, for bisection.
+(CVXPY) May 29 01:03:52 AM: Your problem has 50 variables, 4 constraints, and 0 parameters.
+(CVXPY) May 29 01:03:52 AM: It is compliant with the following grammars: DQCP
+(CVXPY) May 29 01:03:52 AM: (If you need to solve this problem multiple times, but with different data, consider using parameters.)
+(CVXPY) May 29 01:03:52 AM: CVXPY will first compile your problem; then, it will invoke a numerical solver to obtain a solution.
+(CVXPY) May 29 01:03:52 AM: Reducing DQCP problem to a one-parameter family of DCP problems, for bisection.
 
 ********************************************************************************
 Preparing to bisect problem
 
 minimize 0.0
-subject to Sum(var11116, None, False) == 1.0
-           0.0 &lt;= var11116
-           var11116 &lt;= 0.1
-           0.006297397692761396 @ var11166 &lt;= power(0.010892960588578882, 2.0)
-           SOC(reshape(1.0, (1,), F) + var11166, Hstack(reshape(1.0, (1,), F) + -var11166, Promote(2.0, (50,)) @ reshape([[-0.00410689  0.00373959 -0.00021394 ... -0.00109994 -0.00347274
+subject to Sum(var14956, None, False) == 1.0
+           0.0 &lt;= var14956
+           var14956 &lt;= 0.1
+           0.006297397692761396 @ var15006 &lt;= power(0.010892960588578882, 2.0)
+           SOC(reshape(1.0, (1,), F) + var15006, Hstack(reshape(1.0, (1,), F) + -var15006, Promote(2.0, (50,)) @ reshape([[-0.00410689  0.00373959 -0.00021394 ... -0.00109994 -0.00347274
    0.0054901 ]
  [ 0.00192841 -0.01020446  0.00498922 ... -0.00131438 -0.00925999
   -0.00448017]
@@ -14858,7 +14858,7 @@ subject to Sum(var11116, None, False) == 1.0
  [-0.00636572 -0.00260868 -0.00519153 ...  0.05157842 -0.05033999
    0.0020136 ]
  [-0.21205619 -0.20738575 -0.13456175 ... -0.15428248 -0.1396335
-  -0.14576093]] @ var11116, (50,), F)))
+  -0.14576093]] @ var14956, (50,), F)))
            -[ 3.39987666e-03  5.00798965e-04 -3.92163398e-04 -4.32352989e-04
   1.19445446e-03  3.51046829e-04 -3.29228286e-04 -3.08830749e-04
  -6.43878980e-04  5.72044915e-04  6.58495189e-04  5.27583045e-04
@@ -14871,8 +14871,8 @@ subject to Sum(var11116, None, False) == 1.0
   1.44935676e-04  2.14826402e-04  4.22050697e-05  1.04971065e-03
   6.11412901e-04 -6.94800990e-04  8.75061808e-05 -9.16345058e-04
   9.93403678e-05 -2.25091407e-03  1.15193922e-04 -2.41332199e-04
- -4.33167722e-04 -2.45622259e-03] @ var11116 + -10.0 @ 0.006297397692761396 @ var11190 &lt;= param11181
-           SOC(reshape(1.0, (1,), F) + var11190, Hstack(reshape(1.0, (1,), F) + -var11190, Promote(2.0, (50,)) @ reshape([[-0.00410689  0.00373959 -0.00021394 ... -0.00109994 -0.00347274
+ -4.33167722e-04 -2.45622259e-03] @ var14956 + -4.0 @ 0.006297397692761396 @ var15030 &lt;= param15021
+           SOC(reshape(1.0, (1,), F) + var15030, Hstack(reshape(1.0, (1,), F) + -var15030, Promote(2.0, (50,)) @ reshape([[-0.00410689  0.00373959 -0.00021394 ... -0.00109994 -0.00347274
    0.0054901 ]
  [ 0.00192841 -0.01020446  0.00498922 ... -0.00131438 -0.00925999
   -0.00448017]
@@ -14884,7 +14884,7 @@ subject to Sum(var11116, None, False) == 1.0
  [-0.00636572 -0.00260868 -0.00519153 ...  0.05157842 -0.05033999
    0.0020136 ]
  [-0.21205619 -0.20738575 -0.13456175 ... -0.15428248 -0.1396335
-  -0.14576093]] @ var11116, (50,), F)))
+  -0.14576093]] @ var14956, (50,), F)))
 
 Finding interval for bisection ...
 initial lower bound: -1.000000
@@ -14893,176 +14893,176 @@ initial upper bound: 1.000000
 (iteration 0) lower bound: -1.000000
 (iteration 0) upper bound: 1.000000
 (iteration 0) query point: 0.000000 
-(iteration 0) query was feasible. Solution(status=optimal, opt_val=0.0, primal_vars={11116: array([0.09487092, 0.00285083, 0.00403209, 0.00543829, 0.03738602,
-       0.01764111, 0.0020437 , 0.00220199, 0.00365243, 0.02550325,
-       0.07877384, 0.09595296, 0.06475489, 0.00261081, 0.00663902,
-       0.00999216, 0.00383257, 0.00293807, 0.00972528, 0.00283196,
-       0.00872834, 0.00271268, 0.01546255, 0.00480176, 0.01155664,
-       0.09847891, 0.00764396, 0.00279766, 0.00459031, 0.00689361,
-       0.00570932, 0.07143421, 0.00923093, 0.07549918, 0.01792332,
-       0.0361088 , 0.01855883, 0.00665492, 0.00644133, 0.01703573,
-       0.07300454, 0.00418241, 0.00515864, 0.00068931, 0.0024402 ,
-       0.00052481, 0.00481309, 0.00329106, 0.00351847, 0.00044229]), 11166: array([0.01657298]), 11190: array([0.01608217])}, dual_vars={11127: -2.0461431070230415e-12, 11132: array([2.04525608e-13, 3.60661873e-12, 2.45275587e-12, 1.72578837e-12,
-       1.22078184e-13, 4.31152430e-13, 3.96018306e-12, 3.78008835e-12,
-       2.73997491e-12, 2.28557439e-13, 2.31328312e-13, 1.67751834e-13,
-       3.15471317e-13, 3.30809329e-12, 1.74739514e-12, 1.02589344e-12,
-       2.61423846e-12, 3.02845108e-12, 7.53682325e-13, 3.29310240e-12,
-       1.17158774e-12, 3.39566421e-12, 5.49949613e-13, 1.97470964e-12,
-       7.76015869e-13, 1.40560693e-13, 1.36579950e-12, 3.01511613e-12,
-       2.31714393e-12, 1.42926059e-12, 1.84779682e-12, 4.16961935e-13,
-       1.13653232e-12, 3.00347399e-13, 4.51784660e-13, 3.44083610e-13,
-       5.63160165e-13, 1.64259317e-12, 1.66479780e-12, 4.35727425e-13,
-       3.78362503e-13, 2.23551745e-12, 2.11376083e-12, 6.47611955e-12,
-       3.82064592e-12, 6.16358353e-12, 2.13920384e-12, 3.03846995e-12,
-       2.78436866e-12, 6.26270992e-12]), 11137: array([1.46106416e-12, 1.23346180e-13, 1.27392970e-13, 1.31672329e-13,
-       2.17719771e-13, 1.60661953e-13, 1.20252104e-13, 1.20823161e-13,
-       1.26173056e-13, 1.73612057e-13, 6.22547124e-13, 7.67301191e-13,
-       1.79864614e-13, 1.22276436e-13, 1.36319434e-13, 1.45098842e-13,
-       1.26668961e-13, 1.23467671e-13, 1.42437915e-13, 1.23212207e-13,
-       1.41632561e-13, 1.22666301e-13, 1.58205135e-13, 1.29555532e-13,
-       1.47710817e-13, 1.76912162e-12, 1.37954714e-13, 1.22888234e-13,
-       1.29107302e-13, 1.35913915e-13, 1.32854385e-13, 5.60454001e-13,
-       1.42960895e-13, 3.87567468e-13, 1.64230359e-13, 1.85884452e-13,
-       1.66234301e-13, 1.35891441e-13, 1.35367787e-13, 1.57567714e-13,
-       5.78450352e-13, 1.27704957e-13, 1.31428462e-13, 1.15186706e-13,
-       1.21789554e-13, 1.14586651e-13, 1.30008502e-13, 1.24869992e-13,
-       1.25655844e-13, 1.14283629e-13]), 11161: array([1.42434601e-09]), 11174: array([ 4.52993899e-12, -4.38221011e-12,  1.61909981e-14, -2.36376995e-14,
-       -4.46732103e-16,  1.47846195e-14,  7.62305175e-16, -1.19283899e-14,
-        4.14194828e-15,  2.43416593e-14,  2.23775968e-14, -4.45479325e-15,
-       -8.82344399e-15, -3.94148543e-14, -5.27960733e-14, -1.52792786e-14,
-        2.85331379e-14, -5.48465420e-14, -2.86511629e-14, -2.19601819e-14,
-       -9.26329717e-15, -5.96184023e-14, -2.20523252e-14,  1.38300014e-14,
-       -2.03622187e-14,  1.98454964e-14, -5.32793281e-15, -1.21739819e-14,
-        4.68355108e-14,  6.75026902e-14, -2.53320868e-15,  1.05958179e-13,
-        3.69679310e-14, -4.08236578e-14, -7.33838852e-14,  3.98847758e-14,
-       -7.87437368e-14, -2.56905938e-14,  5.52479156e-14,  9.68618046e-15,
-       -1.28690115e-13, -1.32239864e-14, -1.32448262e-13,  1.73325757e-14,
-        7.23916019e-14, -6.20044813e-14, -4.51070812e-14, -8.52492151e-14,
-        1.26394600e-13,  2.05272455e-13, -5.40637301e-14,  1.04096797e-12]), 11184: array([1.85937632e-09]), 11198: array([ 5.94349009e-11, -5.75700023e-11,  2.19870904e-13, -3.22583144e-13,
-       -1.24070728e-14,  1.95938352e-13, -5.20170292e-15, -1.66393779e-13,
-        6.36218575e-14,  3.56508455e-13,  3.06438192e-13, -3.31621218e-14,
-       -1.33243348e-13, -5.10304574e-13, -7.29615689e-13, -2.05978508e-13,
-        3.65088107e-13, -7.32617147e-13, -3.82373033e-13, -3.04479243e-13,
-       -1.26815632e-13, -8.07773435e-13, -2.93598489e-13,  1.98285195e-13,
-       -2.66545948e-13,  2.76911049e-13, -1.13037110e-13, -1.37250284e-13,
-        6.36967224e-13,  9.25011907e-13, -6.50265851e-14,  1.46833927e-12,
-        4.89134036e-13, -5.66842108e-13, -9.96464778e-13,  5.81118451e-13,
-       -1.08929107e-12, -3.36270044e-13,  7.20191690e-13,  1.44159831e-13,
-       -1.71989558e-12, -1.86694769e-13, -1.80693744e-12,  2.32194154e-13,
-        1.03584291e-12, -8.18925590e-13, -6.13420726e-13, -1.19083121e-12,
-        1.72574439e-12,  2.77302146e-12, -7.83778958e-13,  1.35622279e-11])}, attr={&#39;solve_time&#39;: 0.0168097, &#39;setup_time&#39;: 0.0008593, &#39;num_iters&#39;: 11, &#39;solver_specific_stats&#39;: {&#39;x&#39;: array([0.09487092, 0.00285083, 0.00403209, 0.00543829, 0.03738602,
-       0.01764111, 0.0020437 , 0.00220199, 0.00365243, 0.02550325,
-       0.07877384, 0.09595296, 0.06475489, 0.00261081, 0.00663902,
-       0.00999216, 0.00383257, 0.00293807, 0.00972528, 0.00283196,
-       0.00872834, 0.00271268, 0.01546255, 0.00480176, 0.01155664,
-       0.09847891, 0.00764396, 0.00279766, 0.00459031, 0.00689361,
-       0.00570932, 0.07143421, 0.00923093, 0.07549918, 0.01792332,
-       0.0361088 , 0.01855883, 0.00665492, 0.00644133, 0.01703573,
-       0.07300454, 0.00418241, 0.00515864, 0.00068931, 0.0024402 ,
-       0.00052481, 0.00481309, 0.00329106, 0.00351847, 0.00044229,
-       0.01657298, 0.01608217]), &#39;y&#39;: array([-2.04614311e-12]), &#39;z&#39;: array([ 2.04525608e-13,  3.60661873e-12,  2.45275587e-12,  1.72578837e-12,
-        1.22078184e-13,  4.31152430e-13,  3.96018306e-12,  3.78008835e-12,
-        2.73997491e-12,  2.28557439e-13,  2.31328312e-13,  1.67751834e-13,
-        3.15471317e-13,  3.30809329e-12,  1.74739514e-12,  1.02589344e-12,
-        2.61423846e-12,  3.02845108e-12,  7.53682325e-13,  3.29310240e-12,
-        1.17158774e-12,  3.39566421e-12,  5.49949613e-13,  1.97470964e-12,
-        7.76015869e-13,  1.40560693e-13,  1.36579950e-12,  3.01511613e-12,
-        2.31714393e-12,  1.42926059e-12,  1.84779682e-12,  4.16961935e-13,
-        1.13653232e-12,  3.00347399e-13,  4.51784660e-13,  3.44083610e-13,
-        5.63160165e-13,  1.64259317e-12,  1.66479780e-12,  4.35727425e-13,
-        3.78362503e-13,  2.23551745e-12,  2.11376083e-12,  6.47611955e-12,
-        3.82064592e-12,  6.16358353e-12,  2.13920384e-12,  3.03846995e-12,
-        2.78436866e-12,  6.26270992e-12,  1.46106416e-12,  1.23346180e-13,
-        1.27392970e-13,  1.31672329e-13,  2.17719771e-13,  1.60661953e-13,
-        1.20252104e-13,  1.20823161e-13,  1.26173056e-13,  1.73612057e-13,
-        6.22547124e-13,  7.67301191e-13,  1.79864614e-13,  1.22276436e-13,
-        1.36319434e-13,  1.45098842e-13,  1.26668961e-13,  1.23467671e-13,
-        1.42437915e-13,  1.23212207e-13,  1.41632561e-13,  1.22666301e-13,
-        1.58205135e-13,  1.29555532e-13,  1.47710817e-13,  1.76912162e-12,
-        1.37954714e-13,  1.22888234e-13,  1.29107302e-13,  1.35913915e-13,
-        1.32854385e-13,  5.60454001e-13,  1.42960895e-13,  3.87567468e-13,
-        1.64230359e-13,  1.85884452e-13,  1.66234301e-13,  1.35891441e-13,
-        1.35367787e-13,  1.57567714e-13,  5.78450352e-13,  1.27704957e-13,
-        1.31428462e-13,  1.15186706e-13,  1.21789554e-13,  1.14586651e-13,
-        1.30008502e-13,  1.24869992e-13,  1.25655844e-13,  1.14283629e-13,
-        1.42434601e-09,  1.85937632e-09,  4.52993899e-12, -4.38221011e-12,
-        1.61909981e-14, -2.36376995e-14, -4.46732103e-16,  1.47846195e-14,
-        7.62305175e-16, -1.19283899e-14,  4.14194828e-15,  2.43416593e-14,
-        2.23775968e-14, -4.45479325e-15, -8.82344399e-15, -3.94148543e-14,
-       -5.27960733e-14, -1.52792786e-14,  2.85331379e-14, -5.48465420e-14,
-       -2.86511629e-14, -2.19601819e-14, -9.26329717e-15, -5.96184023e-14,
-       -2.20523252e-14,  1.38300014e-14, -2.03622187e-14,  1.98454964e-14,
-       -5.32793281e-15, -1.21739819e-14,  4.68355108e-14,  6.75026902e-14,
-       -2.53320868e-15,  1.05958179e-13,  3.69679310e-14, -4.08236578e-14,
-       -7.33838852e-14,  3.98847758e-14, -7.87437368e-14, -2.56905938e-14,
-        5.52479156e-14,  9.68618046e-15, -1.28690115e-13, -1.32239864e-14,
-       -1.32448262e-13,  1.73325757e-14,  7.23916019e-14, -6.20044813e-14,
-       -4.51070812e-14, -8.52492151e-14,  1.26394600e-13,  2.05272455e-13,
-       -5.40637301e-14,  1.04096797e-12,  5.94349009e-11, -5.75700023e-11,
-        2.19870904e-13, -3.22583144e-13, -1.24070728e-14,  1.95938352e-13,
-       -5.20170292e-15, -1.66393779e-13,  6.36218575e-14,  3.56508455e-13,
-        3.06438192e-13, -3.31621218e-14, -1.33243348e-13, -5.10304574e-13,
-       -7.29615689e-13, -2.05978508e-13,  3.65088107e-13, -7.32617147e-13,
-       -3.82373033e-13, -3.04479243e-13, -1.26815632e-13, -8.07773435e-13,
-       -2.93598489e-13,  1.98285195e-13, -2.66545948e-13,  2.76911049e-13,
-       -1.13037110e-13, -1.37250284e-13,  6.36967224e-13,  9.25011907e-13,
-       -6.50265851e-14,  1.46833927e-12,  4.89134036e-13, -5.66842108e-13,
-       -9.96464778e-13,  5.81118451e-13, -1.08929107e-12, -3.36270044e-13,
-        7.20191690e-13,  1.44159831e-13, -1.71989558e-12, -1.86694769e-13,
-       -1.80693744e-12,  2.32194154e-13,  1.03584291e-12, -8.18925590e-13,
-       -6.13420726e-13, -1.19083121e-12,  1.72574439e-12,  2.77302146e-12,
-       -7.83778958e-13,  1.35622279e-11]), &#39;s&#39;: array([ 9.48709159e-02,  2.85083228e-03,  4.03209466e-03,  5.43828540e-03,
-        3.73860234e-02,  1.76411066e-02,  2.04369507e-03,  2.20198569e-03,
-        3.65243074e-03,  2.55032543e-02,  7.87738417e-02,  9.59529572e-02,
-        6.47548871e-02,  2.61080871e-03,  6.63901749e-03,  9.99215749e-03,
-        3.83257211e-03,  2.93806625e-03,  9.72527864e-03,  2.83196333e-03,
-        8.72833879e-03,  2.71267795e-03,  1.54625548e-02,  4.80176053e-03,
-        1.15566365e-02,  9.84789143e-02,  7.64395823e-03,  2.79766119e-03,
-        4.59031445e-03,  6.89360923e-03,  5.70931986e-03,  7.14342143e-02,
-        9.23093063e-03,  7.54991805e-02,  1.79233226e-02,  3.61088016e-02,
-        1.85588313e-02,  6.65491924e-03,  6.44133065e-03,  1.70357256e-02,
-        7.30045367e-02,  4.18241151e-03,  5.15863994e-03,  6.89310601e-04,
-        2.44020376e-03,  5.24813327e-04,  4.81309455e-03,  3.29105917e-03,
-        3.51846760e-03,  4.42286397e-04,  5.12908410e-03,  9.71491677e-02,
-        9.59679053e-02,  9.45617146e-02,  6.26139766e-02,  8.23588934e-02,
-        9.79563049e-02,  9.77980143e-02,  9.63475693e-02,  7.44967457e-02,
-        2.12261583e-02,  4.04704280e-03,  3.52451129e-02,  9.73891913e-02,
-        9.33609825e-02,  9.00078425e-02,  9.61674279e-02,  9.70619338e-02,
-        9.02747214e-02,  9.71680367e-02,  9.12716612e-02,  9.72873221e-02,
-        8.45374452e-02,  9.51982395e-02,  8.84433635e-02,  1.52108573e-03,
-        9.23560418e-02,  9.72023388e-02,  9.54096856e-02,  9.31063908e-02,
-        9.42906801e-02,  2.85657857e-02,  9.07690694e-02,  2.45008195e-02,
-        8.20766774e-02,  6.38911984e-02,  8.14411687e-02,  9.33450808e-02,
-        9.35586694e-02,  8.29642744e-02,  2.69954633e-02,  9.58175885e-02,
-        9.48413601e-02,  9.93106894e-02,  9.75597962e-02,  9.94751867e-02,
-        9.51869055e-02,  9.67089408e-02,  9.64815324e-02,  9.95577136e-02,
-        1.42899263e-05,  3.04167740e-05,  1.01657298e+00,  9.83427017e-01,
-       -3.46026240e-03,  5.78383282e-03,  8.71111055e-04, -2.53539998e-03,
-        5.37888588e-04,  3.05937578e-03, -1.84408387e-03, -5.51880599e-03,
-       -2.73186709e-03,  5.72491443e-04,  1.71976491e-03,  8.02838513e-03,
-        9.98764620e-03,  2.24812899e-03, -4.61225624e-03,  1.29878040e-02,
-        2.73843117e-03,  2.63784448e-03,  3.85008611e-03,  1.16610918e-02,
-        4.90473965e-03, -3.09948547e-03,  3.79605194e-03, -4.95505438e-03,
-        5.44319298e-04,  2.96934568e-03, -9.98161190e-03, -1.47547420e-02,
-        6.19351487e-04, -2.25193095e-02, -8.18252988e-03,  1.00464462e-02,
-        1.30694732e-02, -1.19020409e-02,  1.60823812e-02,  6.65645479e-03,
-       -1.14842079e-02, -3.09448663e-04,  2.69203319e-02,  2.97777200e-04,
-        2.87552473e-02, -4.86076150e-03, -1.56491148e-02,  1.51724419e-02,
-        9.76673487e-03,  1.95458938e-02, -2.99645694e-02, -4.47973966e-02,
-        1.51272287e-02, -2.31216289e-01,  1.01608217e+00,  9.83917830e-01,
-       -3.46026240e-03,  5.78383282e-03,  8.71111055e-04, -2.53539998e-03,
-        5.37888588e-04,  3.05937578e-03, -1.84408387e-03, -5.51880599e-03,
-       -2.73186709e-03,  5.72491443e-04,  1.71976491e-03,  8.02838513e-03,
-        9.98764620e-03,  2.24812899e-03, -4.61225624e-03,  1.29878040e-02,
-        2.73843117e-03,  2.63784448e-03,  3.85008611e-03,  1.16610918e-02,
-        4.90473965e-03, -3.09948547e-03,  3.79605194e-03, -4.95505438e-03,
-        5.44319298e-04,  2.96934568e-03, -9.98161190e-03, -1.47547420e-02,
-        6.19351487e-04, -2.25193095e-02, -8.18252988e-03,  1.00464462e-02,
-        1.30694732e-02, -1.19020409e-02,  1.60823812e-02,  6.65645479e-03,
-       -1.14842079e-02, -3.09448663e-04,  2.69203319e-02,  2.97777200e-04,
-        2.87552473e-02, -4.86076150e-03, -1.56491148e-02,  1.51724419e-02,
-        9.76673487e-03,  1.95458938e-02, -2.99645694e-02, -4.47973966e-02,
-        1.51272287e-02, -2.31216289e-01]), &#39;info&#39;: {&#39;exitFlag&#39;: 0, &#39;pcost&#39;: 0.0, &#39;dcost&#39;: -1.3454569327776714e-12, &#39;pres&#39;: 1.2684684921546337e-13, &#39;dres&#39;: 2.2037814781801534e-13, &#39;pinf&#39;: 0.0, &#39;dinf&#39;: 0.0, &#39;pinfres&#39;: nan, &#39;dinfres&#39;: nan, &#39;gap&#39;: 4.181255406298894e-10, &#39;relgap&#39;: nan, &#39;r0&#39;: 1e-08, &#39;iter&#39;: 11, &#39;mi_iter&#39;: -1, &#39;infostring&#39;: &#39;Optimal solution found&#39;, &#39;timing&#39;: {&#39;runtime&#39;: 0.017669, &#39;tsetup&#39;: 0.0008593, &#39;tsolve&#39;: 0.0168097}, &#39;numerr&#39;: 0}}}))
+(iteration 0) query was feasible. Solution(status=optimal, opt_val=0.0, primal_vars={14956: array([0.05205468, 0.01384225, 0.01498749, 0.01614158, 0.02605482,
+       0.02244491, 0.01231794, 0.01254364, 0.01454357, 0.02418602,
+       0.02953405, 0.03413858, 0.03169016, 0.01313197, 0.01741061,
+       0.02026177, 0.01497075, 0.01354972, 0.01924913, 0.01349127,
+       0.01922426, 0.01357691, 0.02186439, 0.01584435, 0.02065002,
+       0.04910986, 0.01945882, 0.01336841, 0.01633514, 0.01754677,
+       0.0170089 , 0.03058022, 0.01946737, 0.03090196, 0.02221489,
+       0.02646165, 0.02282177, 0.01779477, 0.01753603, 0.02311837,
+       0.02905903, 0.01499775, 0.01646347, 0.01005578, 0.01313689,
+       0.01013878, 0.01606161, 0.01423077, 0.01436286, 0.01006331]), 15006: array([0.0177538]), 15030: array([0.01834715])}, dual_vars={14967: -1.0163264028320595e-12, 14972: array([1.66370773e-12, 3.86084639e-12, 2.60893972e-12, 2.15969157e-12,
+       1.61369577e-12, 1.41415624e-12, 3.92520084e-12, 3.79964710e-12,
+       2.60255163e-12, 1.34178652e-12, 8.42632926e-13, 5.09250265e-13,
+       1.43597301e-12, 2.82117886e-12, 1.69825226e-12, 2.10929727e-12,
+       3.07524380e-12, 2.76431103e-12, 1.90028790e-12, 3.13392654e-12,
+       2.06638538e-12, 3.66781349e-12, 1.46204944e-12, 2.63104707e-12,
+       1.89121169e-12, 5.99022012e-13, 2.77092057e-12, 2.91242425e-12,
+       3.08449452e-12, 2.08275550e-12, 2.52458836e-12, 1.56596828e-12,
+       2.02937198e-12, 1.09321861e-12, 1.10054336e-12, 8.53021968e-13,
+       1.19490803e-12, 2.24309750e-12, 2.17076712e-12, 1.89599812e-12,
+       8.62869965e-13, 2.36737620e-12, 2.52006825e-12, 5.27728868e-12,
+       3.84628362e-12, 4.50089318e-12, 2.66174324e-12, 3.05838133e-12,
+       2.83038656e-12, 4.48608664e-12]), 14977: array([7.86348811e-14, 1.84035606e-13, 1.94515859e-13, 1.98696376e-13,
+       2.09041272e-13, 2.12891440e-13, 1.88122704e-13, 1.88441634e-13,
+       1.95437059e-13, 2.17020321e-13, 2.54190187e-13, 3.25865867e-13,
+       2.23564921e-13, 1.96077603e-13, 2.04772410e-13, 1.96459332e-13,
+       1.89107341e-13, 1.95588599e-13, 2.00747520e-13, 1.92044651e-13,
+       1.97959763e-13, 1.86331301e-13, 2.11071464e-13, 1.92766865e-13,
+       2.00782807e-13, 4.51960521e-13, 1.83712048e-13, 1.94430466e-13,
+       1.85867051e-13, 1.98702504e-13, 1.92543303e-13, 2.13075967e-13,
+       1.98667125e-13, 2.42239095e-13, 2.21862960e-13, 2.41275057e-13,
+       2.20024378e-13, 1.96072819e-13, 1.97288073e-13, 1.99930453e-13,
+       2.48917921e-13, 1.97320510e-13, 1.93503121e-13, 1.88143125e-13,
+       1.86135381e-13, 1.93616304e-13, 1.92078349e-13, 1.91041830e-13,
+       1.93207980e-13, 1.94317794e-13]), 15001: array([1.17630282e-08]), 15014: array([ 3.75818416e-11, -3.63489225e-11,  5.99217494e-14, -1.13959556e-13,
+       -1.10395538e-14,  3.72693347e-14,  1.01446549e-14, -6.64157566e-14,
+        2.22858248e-14,  5.33063747e-14, -2.21716935e-16, -5.77713517e-14,
+        2.46219412e-14, -1.55091406e-13, -8.17087835e-14, -4.76955374e-14,
+        4.10845759e-14, -2.45874752e-13,  7.20076855e-15,  1.56100988e-14,
+       -9.94038424e-14, -1.46774060e-13, -1.10751641e-13,  2.38914977e-14,
+       -9.20449945e-14,  4.90466130e-14,  9.79154993e-14, -7.94388832e-14,
+        1.35190511e-13,  2.15855945e-13,  4.75198072e-14,  2.70844931e-13,
+        1.85197967e-13, -1.95817850e-13, -5.66531571e-14,  2.27351167e-13,
+       -2.36230833e-13, -2.36025707e-13,  2.45377348e-13, -8.37122887e-14,
+       -4.75549676e-13,  1.52978674e-13, -4.20863943e-13,  2.42076243e-14,
+        2.05472499e-13, -4.41486617e-13,  7.32205351e-14, -1.97395106e-13,
+        6.98106861e-13,  6.23076141e-13,  1.54172487e-14,  9.36396783e-12]), 15024: array([8.3097781e-10]), 15038: array([ 1.05561172e-11, -1.01876900e-11,  2.69000082e-14, -4.00554381e-14,
+       -8.36894297e-15,  1.58222695e-14,  5.16669918e-15, -2.36582872e-14,
+        3.99995181e-15,  7.54687481e-15,  2.86055326e-15, -1.47204273e-14,
+        7.95454697e-15, -7.97375053e-14, -5.63525260e-14, -9.25511211e-15,
+        1.64434726e-14, -1.29609758e-13, -2.38226258e-14,  2.88208034e-15,
+       -3.36308196e-14, -8.34513907e-14, -3.24920615e-14,  1.17518729e-14,
+       -3.11266141e-14,  1.95970816e-14,  6.16203860e-14, -3.71020775e-14,
+        6.14412329e-14,  6.45146553e-14,  1.56487683e-14,  1.00650816e-13,
+        7.64174616e-14, -6.30373113e-14, -5.33713778e-14,  9.29342579e-14,
+       -8.79059152e-14, -7.70762383e-14,  1.19885746e-13, -2.68590513e-14,
+       -1.79549711e-13,  5.24075277e-14, -1.69727243e-13,  1.04898095e-13,
+        5.22206445e-14, -1.44498129e-13, -1.23815071e-13, -1.20489773e-13,
+        2.10878240e-13,  4.40249977e-13, -2.94334154e-14,  2.65675310e-12])}, attr={&#39;solve_time&#39;: 0.0051954, &#39;setup_time&#39;: 0.0002642, &#39;num_iters&#39;: 9, &#39;solver_specific_stats&#39;: {&#39;x&#39;: array([0.05205468, 0.01384225, 0.01498749, 0.01614158, 0.02605482,
+       0.02244491, 0.01231794, 0.01254364, 0.01454357, 0.02418602,
+       0.02953405, 0.03413858, 0.03169016, 0.01313197, 0.01741061,
+       0.02026177, 0.01497075, 0.01354972, 0.01924913, 0.01349127,
+       0.01922426, 0.01357691, 0.02186439, 0.01584435, 0.02065002,
+       0.04910986, 0.01945882, 0.01336841, 0.01633514, 0.01754677,
+       0.0170089 , 0.03058022, 0.01946737, 0.03090196, 0.02221489,
+       0.02646165, 0.02282177, 0.01779477, 0.01753603, 0.02311837,
+       0.02905903, 0.01499775, 0.01646347, 0.01005578, 0.01313689,
+       0.01013878, 0.01606161, 0.01423077, 0.01436286, 0.01006331,
+       0.0177538 , 0.01834715]), &#39;y&#39;: array([-1.0163264e-12]), &#39;z&#39;: array([ 1.66370773e-12,  3.86084639e-12,  2.60893972e-12,  2.15969157e-12,
+        1.61369577e-12,  1.41415624e-12,  3.92520084e-12,  3.79964710e-12,
+        2.60255163e-12,  1.34178652e-12,  8.42632926e-13,  5.09250265e-13,
+        1.43597301e-12,  2.82117886e-12,  1.69825226e-12,  2.10929727e-12,
+        3.07524380e-12,  2.76431103e-12,  1.90028790e-12,  3.13392654e-12,
+        2.06638538e-12,  3.66781349e-12,  1.46204944e-12,  2.63104707e-12,
+        1.89121169e-12,  5.99022012e-13,  2.77092057e-12,  2.91242425e-12,
+        3.08449452e-12,  2.08275550e-12,  2.52458836e-12,  1.56596828e-12,
+        2.02937198e-12,  1.09321861e-12,  1.10054336e-12,  8.53021968e-13,
+        1.19490803e-12,  2.24309750e-12,  2.17076712e-12,  1.89599812e-12,
+        8.62869965e-13,  2.36737620e-12,  2.52006825e-12,  5.27728868e-12,
+        3.84628362e-12,  4.50089318e-12,  2.66174324e-12,  3.05838133e-12,
+        2.83038656e-12,  4.48608664e-12,  7.86348811e-14,  1.84035606e-13,
+        1.94515859e-13,  1.98696376e-13,  2.09041272e-13,  2.12891440e-13,
+        1.88122704e-13,  1.88441634e-13,  1.95437059e-13,  2.17020321e-13,
+        2.54190187e-13,  3.25865867e-13,  2.23564921e-13,  1.96077603e-13,
+        2.04772410e-13,  1.96459332e-13,  1.89107341e-13,  1.95588599e-13,
+        2.00747520e-13,  1.92044651e-13,  1.97959763e-13,  1.86331301e-13,
+        2.11071464e-13,  1.92766865e-13,  2.00782807e-13,  4.51960521e-13,
+        1.83712048e-13,  1.94430466e-13,  1.85867051e-13,  1.98702504e-13,
+        1.92543303e-13,  2.13075967e-13,  1.98667125e-13,  2.42239095e-13,
+        2.21862960e-13,  2.41275057e-13,  2.20024378e-13,  1.96072819e-13,
+        1.97288073e-13,  1.99930453e-13,  2.48917921e-13,  1.97320510e-13,
+        1.93503121e-13,  1.88143125e-13,  1.86135381e-13,  1.93616304e-13,
+        1.92078349e-13,  1.91041830e-13,  1.93207980e-13,  1.94317794e-13,
+        1.17630282e-08,  8.30977810e-10,  3.75818416e-11, -3.63489225e-11,
+        5.99217494e-14, -1.13959556e-13, -1.10395538e-14,  3.72693347e-14,
+        1.01446549e-14, -6.64157566e-14,  2.22858248e-14,  5.33063747e-14,
+       -2.21716935e-16, -5.77713517e-14,  2.46219412e-14, -1.55091406e-13,
+       -8.17087835e-14, -4.76955374e-14,  4.10845759e-14, -2.45874752e-13,
+        7.20076855e-15,  1.56100988e-14, -9.94038424e-14, -1.46774060e-13,
+       -1.10751641e-13,  2.38914977e-14, -9.20449945e-14,  4.90466130e-14,
+        9.79154993e-14, -7.94388832e-14,  1.35190511e-13,  2.15855945e-13,
+        4.75198072e-14,  2.70844931e-13,  1.85197967e-13, -1.95817850e-13,
+       -5.66531571e-14,  2.27351167e-13, -2.36230833e-13, -2.36025707e-13,
+        2.45377348e-13, -8.37122887e-14, -4.75549676e-13,  1.52978674e-13,
+       -4.20863943e-13,  2.42076243e-14,  2.05472499e-13, -4.41486617e-13,
+        7.32205351e-14, -1.97395106e-13,  6.98106861e-13,  6.23076141e-13,
+        1.54172487e-14,  9.36396783e-12,  1.05561172e-11, -1.01876900e-11,
+        2.69000082e-14, -4.00554381e-14, -8.36894297e-15,  1.58222695e-14,
+        5.16669918e-15, -2.36582872e-14,  3.99995181e-15,  7.54687481e-15,
+        2.86055326e-15, -1.47204273e-14,  7.95454697e-15, -7.97375053e-14,
+       -5.63525260e-14, -9.25511211e-15,  1.64434726e-14, -1.29609758e-13,
+       -2.38226258e-14,  2.88208034e-15, -3.36308196e-14, -8.34513907e-14,
+       -3.24920615e-14,  1.17518729e-14, -3.11266141e-14,  1.95970816e-14,
+        6.16203860e-14, -3.71020775e-14,  6.14412329e-14,  6.45146553e-14,
+        1.56487683e-14,  1.00650816e-13,  7.64174616e-14, -6.30373113e-14,
+       -5.33713778e-14,  9.29342579e-14, -8.79059152e-14, -7.70762383e-14,
+        1.19885746e-13, -2.68590513e-14, -1.79549711e-13,  5.24075277e-14,
+       -1.69727243e-13,  1.04898095e-13,  5.22206445e-14, -1.44498129e-13,
+       -1.23815071e-13, -1.20489773e-13,  2.10878240e-13,  4.40249977e-13,
+       -2.94334154e-14,  2.65675310e-12]), &#39;s&#39;: array([ 5.20546846e-02,  1.38422497e-02,  1.49874892e-02,  1.61415768e-02,
+        2.60548224e-02,  2.24449066e-02,  1.23179360e-02,  1.25436404e-02,
+        1.45435681e-02,  2.41860168e-02,  2.95340516e-02,  3.41385789e-02,
+        3.16901638e-02,  1.31319745e-02,  1.74106053e-02,  2.02617690e-02,
+        1.49707496e-02,  1.35497222e-02,  1.92491306e-02,  1.34912685e-02,
+        1.92242556e-02,  1.35769063e-02,  2.18643861e-02,  1.58443494e-02,
+        2.06500183e-02,  4.91098560e-02,  1.94588230e-02,  1.33684122e-02,
+        1.63351363e-02,  1.75467731e-02,  1.70089021e-02,  3.05802166e-02,
+        1.94673736e-02,  3.09019596e-02,  2.22148895e-02,  2.64616476e-02,
+        2.28217701e-02,  1.77947736e-02,  1.75360350e-02,  2.31183663e-02,
+        2.90590254e-02,  1.49977507e-02,  1.64634706e-02,  1.00557812e-02,
+        1.31368905e-02,  1.01387802e-02,  1.60616107e-02,  1.42307669e-02,
+        1.43628606e-02,  1.00633080e-02,  4.79453154e-02,  8.61577503e-02,
+        8.50125108e-02,  8.38584232e-02,  7.39451776e-02,  7.75550934e-02,
+        8.76820640e-02,  8.74563596e-02,  8.54564319e-02,  7.58139832e-02,
+        7.04659484e-02,  6.58614211e-02,  6.83098362e-02,  8.68680255e-02,
+        8.25893947e-02,  7.97382310e-02,  8.50292504e-02,  8.64502778e-02,
+        8.07508694e-02,  8.65087315e-02,  8.07757444e-02,  8.64230937e-02,
+        7.81356139e-02,  8.41556506e-02,  7.93499817e-02,  5.08901440e-02,
+        8.05411770e-02,  8.66315878e-02,  8.36648637e-02,  8.24532269e-02,
+        8.29910979e-02,  6.94197834e-02,  8.05326264e-02,  6.90980404e-02,
+        7.77851105e-02,  7.35383524e-02,  7.71782299e-02,  8.22052264e-02,
+        8.24639650e-02,  7.68816337e-02,  7.09409746e-02,  8.50022493e-02,
+        8.35365294e-02,  8.99442188e-02,  8.68631095e-02,  8.98612198e-02,
+        8.39383893e-02,  8.57692331e-02,  8.56371394e-02,  8.99366920e-02,
+        6.85382071e-06,  1.54976271e-05,  1.01775380e+00,  9.82246195e-01,
+       -1.44704848e-03,  2.41464427e-03,  2.89337568e-04, -9.33337348e-04,
+       -3.05022742e-04,  1.50563134e-03, -2.62746706e-04, -8.39604206e-04,
+       -7.42421311e-05,  1.09448304e-03, -6.44974850e-04,  3.60013661e-03,
+        2.23061104e-03,  1.05071917e-03, -5.92357291e-04,  6.07279312e-03,
+        6.61704592e-04, -2.27822602e-04,  1.70551377e-03,  3.45089946e-03,
+        2.22764487e-03, -6.91145353e-04,  1.88251108e-03, -1.20947092e-03,
+       -2.87162830e-03,  1.63228852e-03, -3.04421510e-03, -4.29906280e-03,
+       -9.84325669e-04, -5.15375955e-03, -4.64463444e-03,  4.06936832e-03,
+        1.13090070e-03, -5.15755879e-03,  5.30906173e-03,  5.61020786e-03,
+       -6.13142345e-03,  1.91466199e-03,  1.07390743e-02, -4.45902527e-03,
+        9.33383434e-03, -1.48068240e-03, -4.55743645e-03,  1.02593702e-02,
+       -3.68132554e-04,  4.34536755e-03, -1.64503344e-02, -1.61627219e-02,
+       -1.74345212e-03, -2.60057283e-01,  1.01834715e+00,  9.81652850e-01,
+       -1.44704848e-03,  2.41464427e-03,  2.89337568e-04, -9.33337348e-04,
+       -3.05022742e-04,  1.50563134e-03, -2.62746706e-04, -8.39604206e-04,
+       -7.42421311e-05,  1.09448304e-03, -6.44974850e-04,  3.60013661e-03,
+        2.23061104e-03,  1.05071917e-03, -5.92357291e-04,  6.07279312e-03,
+        6.61704592e-04, -2.27822602e-04,  1.70551377e-03,  3.45089946e-03,
+        2.22764487e-03, -6.91145353e-04,  1.88251108e-03, -1.20947092e-03,
+       -2.87162830e-03,  1.63228852e-03, -3.04421510e-03, -4.29906280e-03,
+       -9.84325669e-04, -5.15375955e-03, -4.64463444e-03,  4.06936832e-03,
+        1.13090070e-03, -5.15755879e-03,  5.30906173e-03,  5.61020786e-03,
+       -6.13142345e-03,  1.91466199e-03,  1.07390743e-02, -4.45902527e-03,
+        9.33383434e-03, -1.48068240e-03, -4.55743645e-03,  1.02593702e-02,
+       -3.68132554e-04,  4.34536755e-03, -1.64503344e-02, -1.61627219e-02,
+       -1.74345212e-03, -2.60057283e-01]), &#39;info&#39;: {&#39;exitFlag&#39;: 0, &#39;pcost&#39;: 0.0, &#39;dcost&#39;: -3.0157909641648873e-12, &#39;pres&#39;: 3.6776486046707477e-13, &#39;dres&#39;: 5.386946952275106e-13, &#39;pinf&#39;: 0.0, &#39;dinf&#39;: 0.0, &#39;pinfres&#39;: nan, &#39;dinfres&#39;: nan, &#39;gap&#39;: 9.361676633294092e-10, &#39;relgap&#39;: nan, &#39;r0&#39;: 1e-08, &#39;iter&#39;: 9, &#39;mi_iter&#39;: -1, &#39;infostring&#39;: &#39;Optimal solution found&#39;, &#39;timing&#39;: {&#39;runtime&#39;: 0.0054596, &#39;tsetup&#39;: 0.0002642, &#39;tsolve&#39;: 0.0051954}, &#39;numerr&#39;: 0}}}))
 
 (iteration 5) lower bound: -0.062500
 (iteration 5) upper bound: 0.000000
@@ -15074,20 +15074,368 @@ initial upper bound: 1.000000
 (iteration 10) query point: -0.000977 
 (iteration 10) query was infeasible.
 
-(iteration 15) lower bound: -0.000305
-(iteration 15) upper bound: -0.000244
-(iteration 15) query point: -0.000275 
-(iteration 15) query was infeasible.
+(iteration 15) lower bound: -0.000916
+(iteration 15) upper bound: -0.000854
+(iteration 15) query point: -0.000885 
+(iteration 15) query was feasible. Solution(status=optimal, opt_val=0.0, primal_vars={14956: array([9.98020775e-02, 2.37578810e-04, 1.82343809e-04, 2.12400863e-04,
+       9.94190224e-02, 1.04320056e-03, 1.48672689e-04, 1.51617597e-04,
+       1.52787060e-04, 4.27933856e-03, 9.35099090e-02, 9.70963488e-02,
+       9.97604174e-02, 1.28999375e-04, 1.84596945e-04, 1.46802409e-03,
+       2.41159780e-04, 1.37807806e-04, 5.62632129e-04, 1.50613441e-04,
+       5.71968012e-04, 2.09132938e-04, 7.21187093e-04, 2.67491312e-04,
+       8.84423187e-04, 9.98547614e-02, 1.50416029e-02, 1.42739094e-04,
+       4.47075202e-04, 2.84781890e-04, 3.37275688e-04, 9.98476972e-02,
+       5.54730032e-04, 9.88870677e-02, 4.21078976e-04, 1.06134415e-03,
+       5.21527709e-04, 3.49942913e-04, 2.91384028e-04, 9.00861743e-02,
+       8.88278935e-02, 1.68603538e-04, 2.69409501e-04, 1.04004310e-04,
+       1.78439748e-04, 9.15690474e-05, 2.71435176e-04, 1.77427381e-04,
+       1.68642448e-04, 8.96411400e-05]), 15006: array([0.01824595]), 15030: array([0.01791702])}, dual_vars={14967: 2.002096099858155e-12, 14972: array([2.43424425e-13, 9.61316759e-11, 1.27691029e-10, 1.11382664e-10,
+       3.46814628e-13, 2.71857366e-11, 1.61996562e-10, 1.57786395e-10,
+       1.53312721e-10, 8.34288139e-12, 1.91252368e-13, 2.43380851e-13,
+       2.59730336e-13, 1.96537282e-10, 1.23160149e-10, 2.01708666e-11,
+       9.64137535e-11, 1.79205411e-10, 4.53226125e-11, 1.57933551e-10,
+       4.43667956e-11, 1.11770415e-10, 3.67737637e-11, 8.84355626e-11,
+       3.06890718e-11, 2.50363801e-13, 1.32246347e-12, 1.74021109e-10,
+       5.42771351e-11, 8.19183862e-11, 6.99177929e-11, 2.61295824e-13,
+       4.50920560e-11, 2.86971655e-13, 5.77665799e-11, 2.73133319e-11,
+       4.76834255e-11, 6.76009275e-11, 7.98151150e-11, 2.95639261e-13,
+       2.07424768e-13, 1.41491710e-10, 8.59763098e-11, 2.56224515e-10,
+       1.29261153e-10, 3.35026443e-10, 8.59839902e-11, 1.30550605e-10,
+       1.39022778e-10, 3.51290966e-10]), 14977: array([2.04320995e-10, 1.99934273e-13, 1.99884140e-13, 2.00205749e-13,
+       1.91503606e-11, 2.03997671e-13, 1.99736544e-13, 1.99742332e-13,
+       1.99746093e-13, 2.24510012e-13, 2.45046154e-12, 3.30982167e-12,
+       4.57977380e-11, 1.99800342e-13, 1.99831871e-13, 2.06178785e-13,
+       2.00179504e-13, 1.99807947e-13, 2.02166333e-13, 1.99743349e-13,
+       2.01549749e-13, 1.99965620e-13, 2.02357825e-13, 2.00455787e-13,
+       2.03338647e-13, 9.40051328e-11, 2.46920386e-13, 1.99871503e-13,
+       2.00968389e-13, 2.00373829e-13, 2.00562458e-13, 6.52823170e-11,
+       2.01160797e-13, 2.41914574e-11, 2.00802116e-13, 2.01405978e-13,
+       2.00707430e-13, 2.00483936e-13, 2.00288898e-13, 2.12266069e-12,
+       1.27866385e-12, 1.99954829e-13, 2.00213541e-13, 1.99476684e-13,
+       1.99743686e-13, 1.99705995e-13, 2.00305528e-13, 1.99766626e-13,
+       1.99857589e-13, 1.99720648e-13]), 15001: array([3.31588847e-09]), 15014: array([ 1.05799227e-11, -1.01972550e-11,  3.68977394e-14, -5.83078712e-14,
+       -2.23099936e-14,  6.70922943e-14,  1.51390203e-14, -2.69646657e-14,
+        3.02805238e-14,  1.01217194e-13,  1.17961450e-13,  2.99065148e-14,
+        1.74663047e-14, -1.07924665e-13, -1.59024224e-13,  1.61301033e-14,
+        6.51615729e-14, -1.41122042e-13, -7.57522352e-14, -3.96899126e-14,
+       -1.96861127e-14, -1.32369843e-13, -3.44035652e-14,  2.89127081e-14,
+        8.21000677e-16,  2.39065693e-14, -2.85417728e-14, -3.65770314e-14,
+        6.23631243e-14,  1.98723705e-13, -4.06436518e-14,  2.59801684e-13,
+        1.19675325e-13, -8.32215001e-14, -2.53523249e-13,  4.23103631e-14,
+       -1.89539734e-13, -8.37802736e-14,  2.29804330e-13,  2.67652941e-14,
+       -4.73890596e-13, -9.90147791e-14, -2.07338844e-13,  2.67748027e-14,
+        2.36326573e-13, -8.05307690e-14, -2.34736168e-13, -8.87951285e-14,
+        1.33946946e-13,  6.59741747e-13, -1.21735629e-13,  2.53696831e-12]), 15024: array([1.09256144e-07]), 15038: array([ 1.40063334e-09, -1.35135017e-09,  5.04670959e-12, -7.97070492e-12,
+       -3.29093274e-12,  9.35256051e-12,  2.13366709e-12, -3.84707161e-12,
+        4.69330447e-12,  1.48374310e-11,  1.71292134e-11,  4.88442828e-12,
+        2.77589069e-12, -1.48332702e-11, -2.16288722e-11,  2.70854277e-12,
+        8.81838771e-12, -1.94229186e-11, -1.00639959e-11, -5.45899558e-12,
+       -1.82612240e-12, -1.72254470e-11, -3.64146161e-12,  3.22825471e-12,
+        3.10628294e-13,  3.62465830e-12, -5.70149329e-12, -5.92001199e-12,
+        8.33892408e-12,  2.77915600e-11, -5.79955669e-12,  3.65701304e-11,
+        1.61530954e-11, -1.16703755e-11, -3.54514419e-11,  6.07827252e-12,
+       -2.74665733e-11, -1.24196041e-11,  3.13180477e-11,  4.73995875e-12,
+       -6.49490195e-11, -1.44540611e-11, -2.71242033e-11,  2.88422252e-12,
+        3.36828442e-11, -1.12999338e-11, -3.18500897e-11, -1.31819935e-11,
+        1.72228672e-11,  8.77985279e-11, -1.62706961e-11,  3.33648610e-10])}, attr={&#39;solve_time&#39;: 0.0073062, &#39;setup_time&#39;: 0.0002539, &#39;num_iters&#39;: 13, &#39;solver_specific_stats&#39;: {&#39;x&#39;: array([9.98020775e-02, 2.37578810e-04, 1.82343809e-04, 2.12400863e-04,
+       9.94190224e-02, 1.04320056e-03, 1.48672689e-04, 1.51617597e-04,
+       1.52787060e-04, 4.27933856e-03, 9.35099090e-02, 9.70963488e-02,
+       9.97604174e-02, 1.28999375e-04, 1.84596945e-04, 1.46802409e-03,
+       2.41159780e-04, 1.37807806e-04, 5.62632129e-04, 1.50613441e-04,
+       5.71968012e-04, 2.09132938e-04, 7.21187093e-04, 2.67491312e-04,
+       8.84423187e-04, 9.98547614e-02, 1.50416029e-02, 1.42739094e-04,
+       4.47075202e-04, 2.84781890e-04, 3.37275688e-04, 9.98476972e-02,
+       5.54730032e-04, 9.88870677e-02, 4.21078976e-04, 1.06134415e-03,
+       5.21527709e-04, 3.49942913e-04, 2.91384028e-04, 9.00861743e-02,
+       8.88278935e-02, 1.68603538e-04, 2.69409501e-04, 1.04004310e-04,
+       1.78439748e-04, 9.15690474e-05, 2.71435176e-04, 1.77427381e-04,
+       1.68642448e-04, 8.96411400e-05, 1.82459492e-02, 1.79170239e-02]), &#39;y&#39;: array([2.0020961e-12]), &#39;z&#39;: array([ 2.43424425e-13,  9.61316759e-11,  1.27691029e-10,  1.11382664e-10,
+        3.46814628e-13,  2.71857366e-11,  1.61996562e-10,  1.57786395e-10,
+        1.53312721e-10,  8.34288139e-12,  1.91252368e-13,  2.43380851e-13,
+        2.59730336e-13,  1.96537282e-10,  1.23160149e-10,  2.01708666e-11,
+        9.64137535e-11,  1.79205411e-10,  4.53226125e-11,  1.57933551e-10,
+        4.43667956e-11,  1.11770415e-10,  3.67737637e-11,  8.84355626e-11,
+        3.06890718e-11,  2.50363801e-13,  1.32246347e-12,  1.74021109e-10,
+        5.42771351e-11,  8.19183862e-11,  6.99177929e-11,  2.61295824e-13,
+        4.50920560e-11,  2.86971655e-13,  5.77665799e-11,  2.73133319e-11,
+        4.76834255e-11,  6.76009275e-11,  7.98151150e-11,  2.95639261e-13,
+        2.07424768e-13,  1.41491710e-10,  8.59763098e-11,  2.56224515e-10,
+        1.29261153e-10,  3.35026443e-10,  8.59839902e-11,  1.30550605e-10,
+        1.39022778e-10,  3.51290966e-10,  2.04320995e-10,  1.99934273e-13,
+        1.99884140e-13,  2.00205749e-13,  1.91503606e-11,  2.03997671e-13,
+        1.99736544e-13,  1.99742332e-13,  1.99746093e-13,  2.24510012e-13,
+        2.45046154e-12,  3.30982167e-12,  4.57977380e-11,  1.99800342e-13,
+        1.99831871e-13,  2.06178785e-13,  2.00179504e-13,  1.99807947e-13,
+        2.02166333e-13,  1.99743349e-13,  2.01549749e-13,  1.99965620e-13,
+        2.02357825e-13,  2.00455787e-13,  2.03338647e-13,  9.40051328e-11,
+        2.46920386e-13,  1.99871503e-13,  2.00968389e-13,  2.00373829e-13,
+        2.00562458e-13,  6.52823170e-11,  2.01160797e-13,  2.41914574e-11,
+        2.00802116e-13,  2.01405978e-13,  2.00707430e-13,  2.00483936e-13,
+        2.00288898e-13,  2.12266069e-12,  1.27866385e-12,  1.99954829e-13,
+        2.00213541e-13,  1.99476684e-13,  1.99743686e-13,  1.99705995e-13,
+        2.00305528e-13,  1.99766626e-13,  1.99857589e-13,  1.99720648e-13,
+        3.31588847e-09,  1.09256144e-07,  1.05799227e-11, -1.01972550e-11,
+        3.68977394e-14, -5.83078712e-14, -2.23099936e-14,  6.70922943e-14,
+        1.51390203e-14, -2.69646657e-14,  3.02805238e-14,  1.01217194e-13,
+        1.17961450e-13,  2.99065148e-14,  1.74663047e-14, -1.07924665e-13,
+       -1.59024224e-13,  1.61301033e-14,  6.51615729e-14, -1.41122042e-13,
+       -7.57522352e-14, -3.96899126e-14, -1.96861127e-14, -1.32369843e-13,
+       -3.44035652e-14,  2.89127081e-14,  8.21000677e-16,  2.39065693e-14,
+       -2.85417728e-14, -3.65770314e-14,  6.23631243e-14,  1.98723705e-13,
+       -4.06436518e-14,  2.59801684e-13,  1.19675325e-13, -8.32215001e-14,
+       -2.53523249e-13,  4.23103631e-14, -1.89539734e-13, -8.37802736e-14,
+        2.29804330e-13,  2.67652941e-14, -4.73890596e-13, -9.90147791e-14,
+       -2.07338844e-13,  2.67748027e-14,  2.36326573e-13, -8.05307690e-14,
+       -2.34736168e-13, -8.87951285e-14,  1.33946946e-13,  6.59741747e-13,
+       -1.21735629e-13,  2.53696831e-12,  1.40063334e-09, -1.35135017e-09,
+        5.04670959e-12, -7.97070492e-12, -3.29093274e-12,  9.35256051e-12,
+        2.13366709e-12, -3.84707161e-12,  4.69330447e-12,  1.48374310e-11,
+        1.71292134e-11,  4.88442828e-12,  2.77589069e-12, -1.48332702e-11,
+       -2.16288722e-11,  2.70854277e-12,  8.81838771e-12, -1.94229186e-11,
+       -1.00639959e-11, -5.45899558e-12, -1.82612240e-12, -1.72254470e-11,
+       -3.64146161e-12,  3.22825471e-12,  3.10628294e-13,  3.62465830e-12,
+       -5.70149329e-12, -5.92001199e-12,  8.33892408e-12,  2.77915600e-11,
+       -5.79955669e-12,  3.65701304e-11,  1.61530954e-11, -1.16703755e-11,
+       -3.54514419e-11,  6.07827252e-12, -2.74665733e-11, -1.24196041e-11,
+        3.13180477e-11,  4.73995875e-12, -6.49490195e-11, -1.44540611e-11,
+       -2.71242033e-11,  2.88422252e-12,  3.36828442e-11, -1.12999338e-11,
+       -3.18500897e-11, -1.31819935e-11,  1.72228672e-11,  8.77985279e-11,
+       -1.62706961e-11,  3.33648610e-10]), &#39;s&#39;: array([ 9.98020775e-02,  2.37578811e-04,  1.82343809e-04,  2.12400864e-04,
+        9.94190224e-02,  1.04320056e-03,  1.48672690e-04,  1.51617598e-04,
+        1.52787061e-04,  4.27933856e-03,  9.35099090e-02,  9.70963488e-02,
+        9.97604174e-02,  1.28999375e-04,  1.84596945e-04,  1.46802409e-03,
+        2.41159781e-04,  1.37807806e-04,  5.62632130e-04,  1.50613441e-04,
+        5.71968013e-04,  2.09132939e-04,  7.21187093e-04,  2.67491312e-04,
+        8.84423188e-04,  9.98547614e-02,  1.50416029e-02,  1.42739094e-04,
+        4.47075202e-04,  2.84781890e-04,  3.37275689e-04,  9.98476972e-02,
+        5.54730032e-04,  9.88870677e-02,  4.21078977e-04,  1.06134415e-03,
+        5.21527709e-04,  3.49942913e-04,  2.91384029e-04,  9.00861743e-02,
+        8.88278935e-02,  1.68603538e-04,  2.69409502e-04,  1.04004311e-04,
+        1.78439748e-04,  9.15690478e-05,  2.71435176e-04,  1.77427382e-04,
+        1.68642448e-04,  8.96411404e-05,  1.97922491e-04,  9.97624212e-02,
+        9.98176562e-02,  9.97875991e-02,  5.80977622e-04,  9.89567994e-02,
+        9.98513273e-02,  9.98483824e-02,  9.98472129e-02,  9.57206614e-02,
+        6.49009099e-03,  2.90365124e-03,  2.39582638e-04,  9.98710006e-02,
+        9.98154031e-02,  9.85319759e-02,  9.97588402e-02,  9.98621922e-02,
+        9.94373679e-02,  9.98493866e-02,  9.94280320e-02,  9.97908671e-02,
+        9.92788129e-02,  9.97325087e-02,  9.91155768e-02,  1.45238638e-04,
+        8.49583971e-02,  9.98572609e-02,  9.95529248e-02,  9.97152181e-02,
+        9.96627243e-02,  1.52302764e-04,  9.94452700e-02,  1.11293231e-03,
+        9.95789210e-02,  9.89386559e-02,  9.94784723e-02,  9.96500571e-02,
+        9.97086160e-02,  9.91382573e-03,  1.11721065e-02,  9.98313965e-02,
+        9.97305905e-02,  9.98959957e-02,  9.98215603e-02,  9.99084310e-02,
+        9.97285648e-02,  9.98225726e-02,  9.98313576e-02,  9.99103589e-02,
+        3.75459175e-06,  4.37808386e-07,  1.01824595e+00,  9.81754051e-01,
+       -3.63421489e-03,  5.73493702e-03,  2.31989070e-03, -6.70736947e-03,
+       -1.49383010e-03,  2.69681505e-03, -3.28622407e-03, -1.04623292e-02,
+       -1.20767131e-02, -3.27550497e-03, -1.70328468e-03,  1.06156148e-02,
+        1.55942375e-02, -1.87575557e-03, -6.37568106e-03,  1.40175199e-02,
+        7.23956631e-03,  4.03087613e-03,  1.54474924e-03,  1.26614284e-02,
+        2.91594691e-03, -2.52549049e-03, -2.23042212e-04, -2.55415193e-03,
+        3.85373098e-03,  3.93476792e-03, -6.19227405e-03, -1.99310818e-02,
+        4.11926786e-03, -2.62137155e-02, -1.14253639e-02,  8.21957819e-03,
+        2.54344255e-02, -4.43008319e-03,  1.95081493e-02,  8.54799832e-03,
+       -2.26355507e-02, -2.88713741e-03,  4.71626267e-02,  1.03301794e-02,
+        2.02692136e-02, -2.16334251e-03, -2.39652386e-02,  7.93734133e-03,
+        2.29293982e-02,  9.33350671e-03, -1.23800077e-02, -6.37096433e-02,
+        1.18585069e-02, -2.42991704e-01,  1.01791702e+00,  9.82082976e-01,
+       -3.63421489e-03,  5.73493702e-03,  2.31989070e-03, -6.70736947e-03,
+       -1.49383010e-03,  2.69681505e-03, -3.28622407e-03, -1.04623292e-02,
+       -1.20767131e-02, -3.27550497e-03, -1.70328468e-03,  1.06156148e-02,
+        1.55942375e-02, -1.87575557e-03, -6.37568106e-03,  1.40175199e-02,
+        7.23956631e-03,  4.03087613e-03,  1.54474924e-03,  1.26614284e-02,
+        2.91594691e-03, -2.52549049e-03, -2.23042212e-04, -2.55415193e-03,
+        3.85373098e-03,  3.93476792e-03, -6.19227405e-03, -1.99310818e-02,
+        4.11926786e-03, -2.62137155e-02, -1.14253639e-02,  8.21957819e-03,
+        2.54344255e-02, -4.43008319e-03,  1.95081493e-02,  8.54799832e-03,
+       -2.26355507e-02, -2.88713741e-03,  4.71626267e-02,  1.03301794e-02,
+        2.02692136e-02, -2.16334251e-03, -2.39652386e-02,  7.93734133e-03,
+        2.29293982e-02,  9.33350671e-03, -1.23800077e-02, -6.37096433e-02,
+        1.18585069e-02, -2.42991704e-01]), &#39;info&#39;: {&#39;exitFlag&#39;: 0, &#39;pcost&#39;: 0.0, &#39;dcost&#39;: -2.3691331473126366e-12, &#39;pres&#39;: 2.669379224727907e-13, &#39;dres&#39;: 3.8527869852121827e-13, &#39;pinf&#39;: 0.0, &#39;dinf&#39;: 0.0, &#39;pinfres&#39;: nan, &#39;dinfres&#39;: nan, &#39;gap&#39;: 7.496578976946892e-10, &#39;relgap&#39;: nan, &#39;r0&#39;: 1e-08, &#39;iter&#39;: 13, &#39;mi_iter&#39;: -1, &#39;infostring&#39;: &#39;Optimal solution found&#39;, &#39;timing&#39;: {&#39;runtime&#39;: 0.007560099999999999, &#39;tsetup&#39;: 0.0002539, &#39;tsolve&#39;: 0.0073062}, &#39;numerr&#39;: 0}}}))
 
-(iteration 20) lower bound: -0.000256
-(iteration 20) upper bound: -0.000254
-(iteration 20) query point: -0.000255 
-(iteration 20) query was infeasible.
+(iteration 20) lower bound: -0.000896
+(iteration 20) upper bound: -0.000895
+(iteration 20) query point: -0.000896 
+(iteration 20) query was feasible. Solution(status=optimal, opt_val=0.0, primal_vars={14956: array([9.99921453e-02, 1.20450049e-05, 9.21606821e-06, 1.05670937e-05,
+       9.99485172e-02, 3.88831385e-05, 7.50794180e-06, 7.69242628e-06,
+       7.85950581e-06, 1.01405126e-04, 9.88467291e-02, 9.95340920e-02,
+       9.99775223e-02, 6.27473980e-06, 9.63734028e-06, 5.23004967e-05,
+       1.21269911e-05, 6.82355759e-06, 2.49286716e-05, 7.59036372e-06,
+       2.48602827e-05, 1.03817887e-05, 3.07853452e-05, 1.31033608e-05,
+       3.72440464e-05, 9.99884497e-02, 8.41804940e-03, 7.03797572e-06,
+       2.09657654e-05, 1.40811383e-05, 1.66087086e-05, 9.99837127e-02,
+       2.46591520e-05, 9.99410611e-02, 1.97776204e-05, 3.61764860e-05,
+       2.37468010e-05, 1.66120936e-05, 1.43717249e-05, 9.91282055e-02,
+       9.35411779e-02, 8.47788743e-06, 1.34764373e-05, 4.94826289e-06,
+       9.19090223e-06, 4.04072742e-06, 1.34428326e-05, 8.95918784e-06,
+       8.63983264e-06, 3.89094325e-06]), 15006: array([0.01818271]), 15030: array([0.01782352])}, dual_vars={14967: 6.020650901840574e-10, 14972: array([2.64739803e-12, 1.92360873e-08, 2.57183937e-08, 2.24771112e-08,
+       3.23440539e-12, 5.44223587e-09, 3.25767273e-08, 3.17224434e-08,
+       3.09552837e-08, 1.58524023e-09, 2.20338701e-12, 2.52498026e-12,
+       2.76657348e-12, 3.96520794e-08, 2.49527979e-08, 3.96251839e-09,
+       1.93849223e-08, 3.61550443e-08, 9.09091903e-09, 3.18148927e-08,
+       8.89911031e-09, 2.23813809e-08, 7.45967833e-09, 1.77762957e-08,
+       6.16040015e-09, 2.70729592e-12, 3.13310015e-11, 3.51152143e-08,
+       1.08294216e-08, 1.64965624e-08, 1.40698556e-08, 2.78407551e-12,
+       9.03253067e-09, 2.81835986e-12, 1.17354614e-08, 5.46992097e-09,
+       9.64908713e-09, 1.35676421e-08, 1.60940856e-08, 2.55539355e-12,
+       2.32546037e-12, 2.85655501e-08, 1.73083846e-08, 5.15334988e-08,
+       2.59601951e-08, 6.75888216e-08, 1.73035683e-08, 2.62373748e-08,
+       2.80489808e-08, 7.08500667e-08]), 14977: array([4.13423957e-08, 2.35655624e-12, 2.35878534e-12, 2.35949697e-12,
+       3.80777451e-09, 2.35394273e-12, 2.35949490e-12, 2.35937885e-12,
+       2.35915244e-12, 2.45073854e-12, 2.75245475e-10, 4.70973574e-10,
+       9.23779886e-09, 2.36093475e-12, 2.35787298e-12, 2.35868445e-12,
+       2.35790208e-12, 2.36049917e-12, 2.35816972e-12, 2.35940482e-12,
+       2.35315305e-12, 2.35837899e-12, 2.35035382e-12, 2.35876794e-12,
+       2.35061804e-12, 1.88590384e-08, 2.59089260e-12, 2.36069277e-12,
+       2.35446983e-12, 2.35705205e-12, 2.35575387e-12, 1.31932090e-08,
+       2.35067475e-12, 4.79623526e-09, 2.35306592e-12, 2.33643725e-12,
+       2.34763145e-12, 2.35517173e-12, 2.35608316e-12, 3.24624410e-10,
+       3.60414344e-11, 2.35989676e-12, 2.35671996e-12, 2.36005266e-12,
+       2.35802564e-12, 2.36209196e-12, 2.35734315e-12, 2.35832310e-12,
+       2.35914328e-12, 2.36228098e-12]), 15001: array([4.52530474e-08]), 15014: array([ 1.44503406e-10, -1.39364537e-10,  5.31477207e-13, -8.44188348e-13,
+       -3.51686859e-13,  9.88391914e-13,  2.33211585e-13, -4.32522447e-13,
+        5.29040040e-13,  1.62001545e-12,  1.87732745e-12,  5.86809834e-13,
+        3.87990353e-13, -1.56926587e-12, -2.25436812e-12,  2.79575054e-13,
+        9.38729243e-13, -2.00830356e-12, -1.04165280e-12, -5.32474661e-13,
+       -8.52561349e-14, -1.70991184e-12, -2.56643308e-13,  2.99126976e-13,
+        1.31278340e-16,  4.64334695e-13, -6.53025231e-13, -7.60139055e-13,
+        8.72715526e-13,  2.98567061e-12, -5.76929055e-13,  3.85832570e-12,
+        1.77811884e-12, -1.35535949e-12, -3.74704313e-12,  5.93710524e-13,
+       -2.97671508e-12, -1.44094572e-12,  3.18171644e-12,  7.17124550e-13,
+       -6.59224505e-12, -1.50658556e-12, -2.59213116e-12,  2.78464541e-13,
+        3.61355924e-12, -1.31100382e-12, -3.25914668e-12, -1.54385494e-12,
+        1.94278472e-12,  8.90839146e-12, -1.66775334e-12,  3.41263372e-11]), 15024: array([2.20535005e-05]), 15038: array([ 2.82717557e-07, -2.72799669e-07,  1.03672786e-09, -1.63345154e-09,
+       -7.02995223e-10,  1.94556038e-09,  4.54790800e-10, -8.17047154e-10,
+        1.01771354e-09,  3.16136783e-09,  3.66801779e-09,  1.13284153e-09,
+        6.62084938e-10, -3.05997050e-09, -4.41531706e-09,  6.11142699e-10,
+        1.78056398e-09, -3.97519225e-09, -2.04255987e-09, -1.10402507e-09,
+       -2.64065283e-10, -3.40978445e-09, -5.83111607e-10,  5.99480389e-10,
+        5.02298701e-11,  7.79043104e-10, -1.34603941e-09, -1.34373369e-09,
+        1.72224898e-09,  5.76131164e-09, -1.18798752e-09,  7.60210706e-09,
+        3.29527545e-09, -2.46226953e-09, -7.33315708e-09,  1.30045963e-09,
+       -5.83809976e-09, -2.68201717e-09,  6.38805845e-09,  1.09440913e-09,
+       -1.32916677e-08, -3.04098244e-09, -5.33897405e-09,  5.11903526e-10,
+        7.05641971e-09, -2.39473198e-09, -6.51101405e-09, -2.82741434e-09,
+        3.40729839e-09,  1.77050449e-08, -3.23371392e-09,  6.70583628e-08])}, attr={&#39;solve_time&#39;: 0.0090388, &#39;setup_time&#39;: 0.0002507, &#39;num_iters&#39;: 14, &#39;solver_specific_stats&#39;: {&#39;x&#39;: array([9.99921453e-02, 1.20450049e-05, 9.21606821e-06, 1.05670937e-05,
+       9.99485172e-02, 3.88831385e-05, 7.50794180e-06, 7.69242628e-06,
+       7.85950581e-06, 1.01405126e-04, 9.88467291e-02, 9.95340920e-02,
+       9.99775223e-02, 6.27473980e-06, 9.63734028e-06, 5.23004967e-05,
+       1.21269911e-05, 6.82355759e-06, 2.49286716e-05, 7.59036372e-06,
+       2.48602827e-05, 1.03817887e-05, 3.07853452e-05, 1.31033608e-05,
+       3.72440464e-05, 9.99884497e-02, 8.41804940e-03, 7.03797572e-06,
+       2.09657654e-05, 1.40811383e-05, 1.66087086e-05, 9.99837127e-02,
+       2.46591520e-05, 9.99410611e-02, 1.97776204e-05, 3.61764860e-05,
+       2.37468010e-05, 1.66120936e-05, 1.43717249e-05, 9.91282055e-02,
+       9.35411779e-02, 8.47788743e-06, 1.34764373e-05, 4.94826289e-06,
+       9.19090223e-06, 4.04072742e-06, 1.34428326e-05, 8.95918784e-06,
+       8.63983264e-06, 3.89094325e-06, 1.81827093e-02, 1.78235216e-02]), &#39;y&#39;: array([6.0206509e-10]), &#39;z&#39;: array([ 2.64739803e-12,  1.92360873e-08,  2.57183937e-08,  2.24771112e-08,
+        3.23440539e-12,  5.44223587e-09,  3.25767273e-08,  3.17224434e-08,
+        3.09552837e-08,  1.58524023e-09,  2.20338701e-12,  2.52498026e-12,
+        2.76657348e-12,  3.96520794e-08,  2.49527979e-08,  3.96251839e-09,
+        1.93849223e-08,  3.61550443e-08,  9.09091903e-09,  3.18148927e-08,
+        8.89911031e-09,  2.23813809e-08,  7.45967833e-09,  1.77762957e-08,
+        6.16040015e-09,  2.70729592e-12,  3.13310015e-11,  3.51152143e-08,
+        1.08294216e-08,  1.64965624e-08,  1.40698556e-08,  2.78407551e-12,
+        9.03253067e-09,  2.81835986e-12,  1.17354614e-08,  5.46992097e-09,
+        9.64908713e-09,  1.35676421e-08,  1.60940856e-08,  2.55539355e-12,
+        2.32546037e-12,  2.85655501e-08,  1.73083846e-08,  5.15334988e-08,
+        2.59601951e-08,  6.75888216e-08,  1.73035683e-08,  2.62373748e-08,
+        2.80489808e-08,  7.08500667e-08,  4.13423957e-08,  2.35655624e-12,
+        2.35878534e-12,  2.35949697e-12,  3.80777451e-09,  2.35394273e-12,
+        2.35949490e-12,  2.35937885e-12,  2.35915244e-12,  2.45073854e-12,
+        2.75245475e-10,  4.70973574e-10,  9.23779886e-09,  2.36093475e-12,
+        2.35787298e-12,  2.35868445e-12,  2.35790208e-12,  2.36049917e-12,
+        2.35816972e-12,  2.35940482e-12,  2.35315305e-12,  2.35837899e-12,
+        2.35035382e-12,  2.35876794e-12,  2.35061804e-12,  1.88590384e-08,
+        2.59089260e-12,  2.36069277e-12,  2.35446983e-12,  2.35705205e-12,
+        2.35575387e-12,  1.31932090e-08,  2.35067475e-12,  4.79623526e-09,
+        2.35306592e-12,  2.33643725e-12,  2.34763145e-12,  2.35517173e-12,
+        2.35608316e-12,  3.24624410e-10,  3.60414344e-11,  2.35989676e-12,
+        2.35671996e-12,  2.36005266e-12,  2.35802564e-12,  2.36209196e-12,
+        2.35734315e-12,  2.35832310e-12,  2.35914328e-12,  2.36228098e-12,
+        4.52530474e-08,  2.20535005e-05,  1.44503406e-10, -1.39364537e-10,
+        5.31477207e-13, -8.44188348e-13, -3.51686859e-13,  9.88391914e-13,
+        2.33211585e-13, -4.32522447e-13,  5.29040040e-13,  1.62001545e-12,
+        1.87732745e-12,  5.86809834e-13,  3.87990353e-13, -1.56926587e-12,
+       -2.25436812e-12,  2.79575054e-13,  9.38729243e-13, -2.00830356e-12,
+       -1.04165280e-12, -5.32474661e-13, -8.52561349e-14, -1.70991184e-12,
+       -2.56643308e-13,  2.99126976e-13,  1.31278340e-16,  4.64334695e-13,
+       -6.53025231e-13, -7.60139055e-13,  8.72715526e-13,  2.98567061e-12,
+       -5.76929055e-13,  3.85832570e-12,  1.77811884e-12, -1.35535949e-12,
+       -3.74704313e-12,  5.93710524e-13, -2.97671508e-12, -1.44094572e-12,
+        3.18171644e-12,  7.17124550e-13, -6.59224505e-12, -1.50658556e-12,
+       -2.59213116e-12,  2.78464541e-13,  3.61355924e-12, -1.31100382e-12,
+       -3.25914668e-12, -1.54385494e-12,  1.94278472e-12,  8.90839146e-12,
+       -1.66775334e-12,  3.41263372e-11,  2.82717557e-07, -2.72799669e-07,
+        1.03672786e-09, -1.63345154e-09, -7.02995223e-10,  1.94556038e-09,
+        4.54790800e-10, -8.17047154e-10,  1.01771354e-09,  3.16136783e-09,
+        3.66801779e-09,  1.13284153e-09,  6.62084938e-10, -3.05997050e-09,
+       -4.41531706e-09,  6.11142699e-10,  1.78056398e-09, -3.97519225e-09,
+       -2.04255987e-09, -1.10402507e-09, -2.64065283e-10, -3.40978445e-09,
+       -5.83111607e-10,  5.99480389e-10,  5.02298701e-11,  7.79043104e-10,
+       -1.34603941e-09, -1.34373369e-09,  1.72224898e-09,  5.76131164e-09,
+       -1.18798752e-09,  7.60210706e-09,  3.29527545e-09, -2.46226953e-09,
+       -7.33315708e-09,  1.30045963e-09, -5.83809976e-09, -2.68201717e-09,
+        6.38805845e-09,  1.09440913e-09, -1.32916677e-08, -3.04098244e-09,
+       -5.33897405e-09,  5.11903526e-10,  7.05641971e-09, -2.39473198e-09,
+       -6.51101405e-09, -2.82741434e-09,  3.40729839e-09,  1.77050449e-08,
+       -3.23371392e-09,  6.70583628e-08]), &#39;s&#39;: array([ 9.99921453e-02,  1.20450088e-05,  9.21607202e-06,  1.05670975e-05,
+        9.99485173e-02,  3.88831426e-05,  7.50794551e-06,  7.69243000e-06,
+        7.85950954e-06,  1.01405130e-04,  9.88467291e-02,  9.95340920e-02,
+        9.99775223e-02,  6.27474340e-06,  9.63734411e-06,  5.23005009e-05,
+        1.21269950e-05,  6.82356125e-06,  2.49286756e-05,  7.59036744e-06,
+        2.48602868e-05,  1.03817926e-05,  3.07853493e-05,  1.31033647e-05,
+        3.72440505e-05,  9.99884497e-02,  8.41804941e-03,  7.03797939e-06,
+        2.09657694e-05,  1.40811423e-05,  1.66087126e-05,  9.99837127e-02,
+        2.46591560e-05,  9.99410611e-02,  1.97776244e-05,  3.61764901e-05,
+        2.37468051e-05,  1.66120976e-05,  1.43717289e-05,  9.91282055e-02,
+        9.35411779e-02,  8.47789121e-06,  1.34764412e-05,  4.94826632e-06,
+        9.19090604e-06,  4.04073061e-06,  1.34428365e-05,  8.95919165e-06,
+        8.63983642e-06,  3.89094639e-06,  7.85469093e-06,  9.99879550e-02,
+        9.99907839e-02,  9.99894329e-02,  5.14827551e-05,  9.99611169e-02,
+        9.99924921e-02,  9.99923076e-02,  9.99921405e-02,  9.98985949e-02,
+        1.15327088e-03,  4.65908043e-04,  2.24776984e-05,  9.99937253e-02,
+        9.99903627e-02,  9.99476995e-02,  9.99878730e-02,  9.99931764e-02,
+        9.99750713e-02,  9.99924096e-02,  9.99751397e-02,  9.99896182e-02,
+        9.99692147e-02,  9.99868966e-02,  9.99627560e-02,  1.15502969e-05,
+        9.15819506e-02,  9.99929620e-02,  9.99790342e-02,  9.99859189e-02,
+        9.99833913e-02,  1.62873180e-05,  9.99753409e-02,  5.89389240e-05,
+        9.99802224e-02,  9.99638235e-02,  9.99762532e-02,  9.99833879e-02,
+        9.99856283e-02,  8.71794522e-04,  6.45882208e-03,  9.99915221e-02,
+        9.99865236e-02,  9.99950517e-02,  9.99908091e-02,  9.99959593e-02,
+        9.99865572e-02,  9.99910408e-02,  9.99913602e-02,  9.99961091e-02,
+        4.15283882e-06,  1.56225139e-08,  1.01818271e+00,  9.81817291e-01,
+       -3.71907122e-03,  5.91324006e-03,  2.54325922e-03, -6.95779538e-03,
+       -1.62507795e-03,  2.93515974e-03, -3.70446601e-03, -1.13460412e-02,
+       -1.30440216e-02, -4.05627899e-03, -2.41231374e-03,  1.09576870e-02,
+        1.58439572e-02, -2.23332577e-03, -6.38171879e-03,  1.43019243e-02,
+        7.20475510e-03,  3.89273027e-03,  9.46756597e-04,  1.22111491e-02,
+        2.14941455e-03, -2.17570646e-03, -2.65652510e-04, -2.84463458e-03,
+        4.73478008e-03,  4.85856022e-03, -6.09481890e-03, -2.07675812e-02,
+        4.22406610e-03, -2.72209526e-02, -1.18890145e-02,  8.97356469e-03,
+        2.63132360e-02, -4.55456538e-03,  2.07362203e-02,  9.65445811e-03,
+       -2.28692171e-02, -4.05500111e-03,  4.75045842e-02,  1.07803275e-02,
+        1.90075857e-02, -1.88231040e-03, -2.52274401e-02,  8.67159669e-03,
+        2.33135852e-02,  1.01601685e-02, -1.25213453e-02, -6.35550832e-02,
+        1.16414604e-02, -2.41430514e-01,  1.01782352e+00,  9.82176479e-01,
+       -3.71907122e-03,  5.91324006e-03,  2.54325922e-03, -6.95779539e-03,
+       -1.62507795e-03,  2.93515974e-03, -3.70446601e-03, -1.13460412e-02,
+       -1.30440216e-02, -4.05627900e-03, -2.41231374e-03,  1.09576870e-02,
+        1.58439572e-02, -2.23332577e-03, -6.38171880e-03,  1.43019243e-02,
+        7.20475510e-03,  3.89273027e-03,  9.46756597e-04,  1.22111492e-02,
+        2.14941455e-03, -2.17570646e-03, -2.65652510e-04, -2.84463458e-03,
+        4.73478008e-03,  4.85856022e-03, -6.09481890e-03, -2.07675812e-02,
+        4.22406611e-03, -2.72209526e-02, -1.18890145e-02,  8.97356469e-03,
+        2.63132360e-02, -4.55456538e-03,  2.07362203e-02,  9.65445811e-03,
+       -2.28692171e-02, -4.05500111e-03,  4.75045842e-02,  1.07803275e-02,
+        1.90075857e-02, -1.88231040e-03, -2.52274401e-02,  8.67159669e-03,
+        2.33135852e-02,  1.01601685e-02, -1.25213453e-02, -6.35550833e-02,
+        1.16414604e-02, -2.41430514e-01]), &#39;info&#39;: {&#39;exitFlag&#39;: 0, &#39;pcost&#39;: 0.0, &#39;dcost&#39;: -2.53410911490089e-11, &#39;pres&#39;: 3.452364922155654e-12, &#39;dres&#39;: 4.0744113931300136e-12, &#39;pinf&#39;: 0.0, &#39;dinf&#39;: 0.0, &#39;pinfres&#39;: nan, &#39;dinfres&#39;: nan, &#39;gap&#39;: 7.969235058920527e-09, &#39;relgap&#39;: nan, &#39;r0&#39;: 1e-08, &#39;iter&#39;: 14, &#39;mi_iter&#39;: -1, &#39;infostring&#39;: &#39;Optimal solution found&#39;, &#39;timing&#39;: {&#39;runtime&#39;: 0.0092895, &#39;tsetup&#39;: 0.0002507, &#39;tsolve&#39;: 0.0090388}, &#39;numerr&#39;: 0}}}))
 
-Bisection completed, with lower bound -0.000255 and upper bound -0.0002537
+Bisection completed, with lower bound -0.000896 and upper bound -0.0008955
 ********************************************************************************
 
-Final Sharpe =  0.12598410315519892
+Final Sharpe =  0.12690571480204735
 </pre>
 </div>
 </div>
@@ -15099,7 +15447,7 @@ Final Sharpe =  0.12598410315519892
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">weights</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
@@ -15124,8 +15472,8 @@ Final Sharpe =  0.12598410315519892
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>-0.0008106472160902527
-0.09999778409520564 6.810178108062822e-07
+<pre>-0.0002986148372228128
+0.09999214531265642 3.890943247684807e-06
 </pre>
 </div>
 </div>
@@ -15137,7 +15485,7 @@ Final Sharpe =  0.12598410315519892
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="This-marks-the-completion-of-the-maximizing-using-Convex-Optimizers-as-well.-This-converges-at--.125-looks-like-we-found-the-same-maximum-earleir-as-well-which-would-mean-that-we-already-had-the-lowest-level-standard-deviation-initially.%C2%B6">This marks the completion of the maximizing using Convex Optimizers as well. This converges at  .125 looks like we found the same maximum earleir as well which would mean that we already had the lowest level standard deviation initially.&#182;<a class="anchor-link" href="#This-marks-the-completion-of-the-maximizing-using-Convex-Optimizers-as-well.-This-converges-at--.125-looks-like-we-found-the-same-maximum-earleir-as-well-which-would-mean-that-we-already-had-the-lowest-level-standard-deviation-initially.%C2%B6">&#182;</a></h3><h4 id="But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.0999994),-greater-than-0(min-:-0.000004),-,-and-sum-as-well-1">But we move on to checks standard deviation less than nifty, ratios less 0.1(max: 0.0999994), greater than 0(min : 0.000004), , and sum as well 1<a class="anchor-link" href="#But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.0999994),-greater-than-0(min-:-0.000004),-,-and-sum-as-well-1">&#182;</a></h4>
+<h3 id="This-marks-the-completion-of-the-maximizing-using-Convex-Optimizers-as-well.-This-converges-at--.127-looks-like-we-found-the-same-maximum-earleir-as-well-which-would-mean-that-we-already-had-the-lowest-level-standard-deviation-initially.%C2%B6">This marks the completion of the maximizing using Convex Optimizers as well. This converges at  .127 looks like we found the same maximum earleir as well which would mean that we already had the lowest level standard deviation initially.&#182;<a class="anchor-link" href="#This-marks-the-completion-of-the-maximizing-using-Convex-Optimizers-as-well.-This-converges-at--.127-looks-like-we-found-the-same-maximum-earleir-as-well-which-would-mean-that-we-already-had-the-lowest-level-standard-deviation-initially.%C2%B6">&#182;</a></h3><h4 id="But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.0999994),-greater-than-0(min-:-0.000004),-,-and-sum-as-well-1">But we move on to checks standard deviation less than nifty, ratios less 0.1(max: 0.0999994), greater than 0(min : 0.000004), , and sum as well 1<a class="anchor-link" href="#But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.0999994),-greater-than-0(min-:-0.000004),-,-and-sum-as-well-1">&#182;</a></h4>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15161,7 +15509,7 @@ Final Sharpe =  0.12598410315519892
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[53]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[165]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we create a function to use derivatives</span>
@@ -15182,7 +15530,7 @@ Final Sharpe =  0.12598410315519892
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[166]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># We use the three condtions on the weights, checked here</span>
@@ -15201,7 +15549,7 @@ Final Sharpe =  0.12598410315519892
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[167]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we can check the standard deviation condition here </span>
@@ -15220,7 +15568,7 @@ Final Sharpe =  0.12598410315519892
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[112]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="c1"># right now the ratios are 1/50 = 0.02, which is within the limits</span>
@@ -15276,12 +15624,12 @@ Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`
 
 
 
-<div id="ed4d7632-fae3-4a09-83a6-b2a3d1d1a928" class="jupyter-widgets jp-OutputArea-output ">
+<div id="b45641e1-ee81-450d-a6ff-9e2f78146441" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
+var element = document.getElementById('b45641e1-ee81-450d-a6ff-9e2f78146441');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "83ab32921b1349089bd45c2d36f05670", "version_major": 2, "version_minor": 0}
+{"model_id": "c373409f79a14917af0d778b1d5fb809", "version_major": 2, "version_minor": 0}
 </script>
 </div>
 
@@ -15294,7 +15642,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[113]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
@@ -15335,7 +15683,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[114]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
@@ -15354,7 +15702,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[114]:</div>
 
 
 
@@ -15372,7 +15720,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weight_check</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
@@ -15408,7 +15756,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_check</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">)</span> <span class="o">-</span> <span class="n">nifty_standard_deviation</span>
@@ -15427,7 +15775,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[62]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[116]:</div>
 
 
 
@@ -15450,11 +15798,11 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[168]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="c1"># right now the ratios are 1/50 = 0.02, which is within the limits</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># roughly estimated it to be 1/100 of the intial weights</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># roughly estimated it to be 1/100 of the intial weights</span>
 <span class="n">learnt_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">sds</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">sharpes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -15490,7 +15838,7 @@ var element = document.getElementById('ed4d7632-fae3-4a09-83a6-b2a3d1d1a928');
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>C:\Users\prakh\AppData\Local\Temp/ipykernel_7840/3327879098.py:8: TqdmDeprecationWarning: This function will be removed in tqdm==5.0.0
+<pre>C:\Users\prakh\AppData\Local\Temp/ipykernel_7840/4009388255.py:8: TqdmDeprecationWarning: This function will be removed in tqdm==5.0.0
 Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`
   for k in tqdm_notebook(range(100000)):
 </pre>
@@ -15508,12 +15856,12 @@ Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`
 
 
 
-<div id="04e870b0-9428-4b5d-be00-31b86e3a842a" class="jupyter-widgets jp-OutputArea-output ">
+<div id="6b4751fd-3a9c-46dc-a71c-4144dd7f087e" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
+var element = document.getElementById('6b4751fd-3a9c-46dc-a71c-4144dd7f087e');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "a3f22b255b504186964c9bbed59d028d", "version_major": 2, "version_minor": 0}
+{"model_id": "d57f3a2abfec4676bcf6312345c44be5", "version_major": 2, "version_minor": 0}
 </script>
 </div>
 
@@ -15526,7 +15874,7 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[169]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
@@ -15552,7 +15900,7 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 
 
 <div class="jp-RenderedImage jp-OutputArea-output ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX4AAAD4CAYAAADrRI2NAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjQuMywgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy/MnkTPAAAACXBIWXMAAAsTAAALEwEAmpwYAAAd/UlEQVR4nO3de3hc9X3n8fdXM7rfZUm2LMt3YWMIxragQNhcCPdLnWTTBLo02bS7LE+TzaXtpmTTbZ+226eXzaYJT1kcNpA2TTYkIbRxKIlpEkhCicEyF9+FZYEtWbIlS9Z1JM1o5rd/zJEZC9kaW5cjzfm8nmeeOfM7v6P5/rD5+Oh3fmfGnHOIiEhwZPldgIiIzC0Fv4hIwCj4RUQCRsEvIhIwCn4RkYAJ+13AZCorK93KlSv9LkNEZMHYvXv3KedcVTp952Xwr1y5ksbGRr/LEBFZMMzsaLp9NdUjIhIwCn4RkYBR8IuIBIyCX0QkYBT8IiIBo+AXEQkYBb+ISMDMy3X8IiKzLZFwxBIJxuKOsXhyO55wZz+cm7QtkXCMJZLPcZeyfY7jEhP6jHlt8QTEE4nks3MU5IS4/91rZn3sCn4RmRWJhCMaTzAaSzAajyefxxJExxKMjsVTtidrS/aPxt/aH40nGIsniMUdsbgX2IkE0bhjzHsdjScY88I85vUdiyeIJdzZx3oBPN9UF+cq+EVk9sTiCQZHxhgcTT6GY3GGo94jlvIcixOJxhmJxYlExxiOJt7ajsUZjiUYHt/29o2OxYnFpx+sZpAbziInlEVOOItwVhbZYSM7K4twyMgOZREOZZGdZYRDRnF2ONmWldyXHbLk/vG+WeNt4/vf6hsOGaEsI5xlZFly+8wj5XWW1ydkb21nTegz2XEh7+ee6T/hvbIMzGwG/mSnpuAXWWDG4gn6R8boG46deQyMxBgaHWNgZIyh0TiDozEGR+MMjo4xNDp2VsAPjY4xMDpGdCxxQe+bl51FQU6Y/OzQWdul+dnUlOSRnxMiLztEfnaI3OysZGCHs8gNh1K233p91v7sZLgnjwud6RvOsjkLwyBR8Iv4wDnHcCxO92CUnqEoPZEo/eNBHomdFerjj/7hGP1egE8lPztEYW6Y4rwwhbkhCnPCLC3LozA3TFHKozA3TFFecjs/J0RBdoj8nGR4pz7nhUNkZSmAM4WCX2QGOOfoHxmja2CU05HomUB/a3uUnkgs+TwYpXsoyuh5zrjHz6THH8vKCyhdmp3SFqa04K3XxXnZZ0K9MCdEOKQFe3JuCn6R84gnHN1Do3T2j9I1MErnwIj3nGzrHBihazC5fa4gL8wJUVGUQ0VBDlVFuaxbXEJFYTYVhbksKsyhojCH8sJsSvNzzgR5TljBLbNHwS+BFU84OgdGaO8doaNvmI7eEdr7hmnvHaajb4SOvhG6B0eZbPFHSV6Y6pI8qotz2by8nOriXKqL86gqzqXCC/PxR152aO4HJ3IeCn7JWLF4guOnhznWE+FYT4TW05FkyHvBfqJ/5G1L+gpzQtSU5VNTmsf6JcUsLkmGeXVxLlXFed5zrsJcFjQFvyxofZEYR3uGONYT4Wh3hFYv5I/1RGjvHT7rbD07ZNSUJkP96lUVLC3Lo6Y0P+U5n5K8sFaRSMZT8Mu8NxZP0Hp6mCOdg7ScGuRI51DyuWuInqHoWX0ri3Koqyhgy4pyPrCplrqKAlZUFLB8UQGLi/O0MkUEBb/MI7F4gpauIQ6d6KfpxABHupLhfrR76KybgSqLclhdWcQtly1mVWUhKxYVsmJRAXXlBRTm6q+0yFT0f4nMOeccJ/pHONQxwKETAzSd6OeQF/TjAR/OMlYsKmBNVRE3XrqYNVWFrK4qYk1VIWUFOT6PQGRhU/DLrHLOcawnwp62PvYd72NPWx8HOvrpG46d6TN+IfU966q5tKaYdUuKWV1ZpCWNIrNEwS8zxjlH2+lh9noBv/d4L3vb+ugfSd5pmhPKYn1NMbe/oyYZ8IuLWb+khNKCbJ8rFwkWBb9My0gszs6Wbn52qJOfHuzkeO8wkFxBs25JMXdcsZR31JZyxbJSLllcrLN4kXlAwS8XbGAkxk8OnuTpvSd4/vAphmNx8rNDXF9fyf3vXs3GujLWLSkmN6y17iLzkYJf0jIcjfOzQ5388LV2nm3qZHQsQU1pHh/asowbLq3m2tWLdFOTyAKh4JdzSiQcv2rp5ruNrfzrgZNEonEqi3K55+rl3HlFDZuXl2tdvMgCpOCXt2k7HeGJ3W18r7GN473DlOSF2XplLXdtrOHXVi0ipLAXWdAU/AIkb556Zv9JHt91jOebTwHwzjWV/OFt67l5w2JN44hkkLSC38xuBb4ChICvOef+asL+9cDXgc3AF5xzX0z3WPFX9+Ao337pGN/ceYwT/SPUluXzqRvq+dCWZdRVFPhdnojMgimD38xCwEPATUAbsMvMtjvnDqR06wE+Bbz/Io4VH+xp6+XvX3iTp17rIBpPcP3aSv78/Zdzw/pqTeWIZLh0zvivBpqdcy0AZvY4sBU4E97OuU6g08zuuNBjZe4453i2qZOHnzvCrjdPU5AT4iNX1fGx61awtrrY7/JEZI6kE/y1QGvK6zbg19L8+Wkfa2b3AfcBLF++PM0fL+mIxRM8taedbc+10HRygKWlefzRHZfy4avqKMnTXbMiQZNO8E/2e/8k30k0vWOdc48AjwA0NDSk+/PlPCLRMb67q5X/+8s3ON47zCWLi/jShzdy18alZOs7WUUCK53gbwPqUl4vA9rT/PnTOVYuUiQ6xj/+6ihf/UULPUNRGlaU82dbL+O966q17l5E0gr+XUC9ma0CjgN3A7+Z5s+fzrFygYajcb658yhf/cURTg1G+Xf1lXzqffVctbLC79JEZB6ZMvidc2Nm9klgB8klmY855/ab2f3e/m1mtgRoBEqAhJl9BtjgnOuf7NhZGktgjcTifOvFYzz83BFODY7yzrWL2HbjJTQo8EVkEubc/JtOb2hocI2NjX6XMe9FxxJ8+6VjPPRsM50Do1y7ehGfvekSrl6lwBcJGjPb7ZxrSKev7txdgBIJxw/3tPPFZ5po7Rnm6pUVfOXuTVy7ZpHfpYnIAqDgX2CeP3yKv/rxQfYd7+fSmhL+4bffwbvqKzHTRVsRSY+Cf4HYd7yPv/7xIX55+BS1Zfn87Uc2snVjrVbpiMgFU/DPc609Eb74TBM/eLWdsoJs/uiOS7n3mhX60DQRuWgK/nlqYCTG3z3bzNeff5OsLPjd96zhv7x7DaX5utNWRKZHwT/PxBOOJ3a38r92vM6pwVH+/eZl/Ldb1rGkNM/v0kQkQyj455GdLd382Q8PcKCjny0rynn0Yw1srCvzuywRyTAK/nngWHeEv/zRQX607wRLS/N48J5N3HVFjVbqiMisUPD7aHB0jIeebebRX75BKMv4/Zsu4T+/a7Uu3IrIrFLw+8A5x/bX2vmLfzlI58AoH9xcy+duWa95fBGZEwr+Ofb6yQH++Af72NnSwxXLSvnqb21h0/Jyv8sSkQBR8M+RwdExHvzpYR57/g0Kc8P8xQcu5+6rlutrDkVkzin4Z5lzjqf2dPA//+UAJ/tHufuqOj5363oqCnP8Lk1EAkrBP4uaOwf44x/s54Uj3VxeW8LD925hs6Z1RMRnCv5Z8v3dbfzh9/dQkBPiz99/Ob95taZ1RGR+UPDPgmPdEf7on/exZUU5/+c/bGZRUa7fJYmInKFv3J5hiYTjD554jXCW8bcfuVKhLyLzjoJ/hv39C2/y0hs9/I+7NrC0LN/vckRE3kbBP4Naugb5mx2HuGF9Nb+xZZnf5YiITErBP0PiCccffO81csMh/vKD79Dn7IjIvKWLuzPk0edbePlYL1/+yJUsLtFHL4jI/KUz/hnQG4nylZ8c5sZLq9l65VK/yxEROS8F/wz44Z4OhqJxPnPjJZriEZF5T8E/A558uY31S4q5bGmJ36WIiExJwT9Nb5wa4pVjvXxgU63O9kVkQVDwT9M/vdyGGWy9stbvUkRE0qLgnwbnHP/06nGuX1upL1ERkQVDwT8NjUdP09ozzAc26WxfRBYOBf80PPlyGwU5IW65bInfpYiIpE3Bf5FGYnGe2tPBrZctoTBX98GJyMKh4L9IPz3YycDIGB/YrGkeEVlYFPwX6YndrSwpyeO6NZV+lyIickHSCn4zu9XMmsys2cwemGS/mdmD3v49ZrY5Zd9nzWy/me0zs2+b2YJf/tLeO8zPX+/iNxqW6Vu1RGTBmTL4zSwEPATcBmwA7jGzDRO63QbUe4/7gIe9Y2uBTwENzrnLgRBw94xV75MndreRcPDhhjq/SxERuWDpnPFfDTQ751qcc1HgcWDrhD5bgW+4pJ1AmZnVePvCQL6ZhYECoH2GavdFIuH4zq5Wrl9bSV1Fgd/liIhcsHSCvxZoTXnd5rVN2cc5dxz4InAM6AD6nHPPTPYmZnafmTWaWWNXV1e69c+5fztyiuO9w3zkKp3ti8jClE7wTzaJ7dLpY2blJH8bWAUsBQrN7N7J3sQ594hzrsE511BVVZVGWf54fFcrZQXZ3HzZYr9LERG5KOkEfxuQenq7jLdP15yrz43AG865LudcDHgSuO7iy/VXz1CUZ/af4IOblpEbDvldjojIRUkn+HcB9Wa2ysxySF6c3T6hz3bgo97qnmtITul0kJziucbMCiz50ZXvAw7OYP1z6smX24jFnaZ5RGRBm/KWU+fcmJl9EthBclXOY865/WZ2v7d/G/A0cDvQDESAj3v7XjSzJ4CXgTHgFeCR2RjIXPjBq+1srCtj3ZJiv0sREbloaX3WgHPuaZLhntq2LWXbAZ84x7F/AvzJNGqcF04PRdl7vI/fu+kSv0sREZkW3bmbpj3H+wBoWFnucyUiItOj4E/TPi/4L68t9bkSEZHpUfCnaU9bL6sqCynJy/a7FBGRaVHwp2nf8X6d7YtIRlDwp6F7cJTjvcNcoeAXkQyg4E/DXs3vi0gGUfCnYW/bePCX+FyJiMj0KfjTsPd4H6srCynWhV0RyQAK/ik453j5WC8b68r8LkVEZEYo+KfQ2jPMqcFRtqzQjVsikhkU/FNoPNoD6I5dEckcCv4p7D56muLcMPXV+mA2EckMCv4p7D56mk0ryvWl6iKSMRT859E3HKPp5ABblmuaR0Qyh4L/PF5t7cU5ze+LSGZR8J/H7jd7yDK4Uks5RSSDKPjPY+cbPVy2tJTC3LS+r0ZEZEFQ8J/DcDTOK8dOc93aRX6XIiIyoxT859B4tIdY3HHtagW/iGQWBf85vHCkm3CWcdXKCr9LERGZUQr+c3jhSDdX1pVpfl9EMo6CfxL9IzH2tvVy3RpN84hI5lHwT+Kllh4SDq5dU+l3KSIiM07BP4kXjnSTG85i0/Iyv0sREZlxCv5J/Pz1Tq5eVUFedsjvUkREZpyCf4LWnghHuoZ49yVVfpciIjIrFPwTPPd6FwDvXV/tcyUiIrNDwT/Bz5s6qavIZ3Vlod+liIjMCgV/ipFYnH9r7ua966ox0+fvi0hmUvCn2PVmD8OxOO9Zp/l9EclcCv4UzzV1kRPO4trVWr8vIpkrreA3s1vNrMnMms3sgUn2m5k96O3fY2abU/aVmdkTZnbIzA6a2bUzOYCZ9FxTJ9esXkR+jpZxikjmmjL4zSwEPATcBmwA7jGzDRO63QbUe4/7gIdT9n0F+LFzbj2wETg4A3XPuJauQY50DXGDpnlEJMOlc8Z/NdDsnGtxzkWBx4GtE/psBb7hknYCZWZWY2YlwLuARwGcc1HnXO/MlT9znjlwEoCbLlvicyUiIrMrneCvBVpTXrd5ben0WQ10AV83s1fM7GtmNuk6STO7z8wazayxq6sr7QHMlB37T/CO2lJqy/Ln/L1FROZSOsE/2bpGl2afMLAZeNg5twkYAt52jQDAOfeIc67BOddQVTW30y2d/SO8cqyXWy5bPKfvKyLih3SCvw2oS3m9DGhPs08b0Oace9Frf4LkPwTzyvg0z82a5hGRAEgn+HcB9Wa2ysxygLuB7RP6bAc+6q3uuQboc851OOdOAK1mts7r9z7gwEwVP1N27D/BqspC6quL/C5FRGTWTfn1Us65MTP7JLADCAGPOef2m9n93v5twNPA7UAzEAE+nvIj/ivwLe8fjZYJ+3zXNxzjV0e6+Z3rV+luXREJhLS+V9A59zTJcE9t25ay7YBPnOPYV4GGiy9xdj3X1MlYwmmaR0QCI/B37v543wmqinPZVFfmdykiInMi0ME/NDrGs02d3HrZErKyNM0jIsEQ6OD/ycGTjMQS3LVxqd+liIjMmUAH/w9f62BJSR4NK8r9LkVEZM4ENvj7hmP84vUu7riiRtM8IhIogQ3+Z/afIBpPcOcVNX6XIiIypwIb/E/t6WBZeT5XajWPiARMIIO/ZyjK882nuPOKpbppS0QCJ5DB/+N9J4gnHHdt1DSPiARPIIP/qT3trK4sZENNid+liIjMucAFf+fACDtburlzo6Z5RCSYAhf8O1t6SDi4eYM+e19Egilwwd89OAqgb9oSkcAKXPCfHopiBiX52X6XIiLii+AFfyRGaX42Id2tKyIBFcDgj1JRkON3GSIivglk8JcVaJpHRIIreME/FKNcZ/wiEmCBC/7eSJTyQgW/iARX4IK/JxKlXFM9IhJggQr+4WickViCMk31iEiABSr4e4ejAJrjF5FAC1Twnx6KAWiqR0QCLVDB3xtJnvFrqkdEgixYwT/snfEX6oxfRIIrUMF/evyMP19n/CISXIEK/t5I8oxfd+6KSJAFLPij5GeHyMsO+V2KiIhvAhX8pyMxne2LSOAFKvh7I1Gt6BGRwAtY8Mco0xewiEjABSr4T0eiWsopIoGXVvCb2a1m1mRmzWb2wCT7zcwe9PbvMbPNE/aHzOwVM3tqpgq/GL2RGKVayikiATdl8JtZCHgIuA3YANxjZhsmdLsNqPce9wEPT9j/aeDgtKudhnjCcToSpapIwS8iwZbOGf/VQLNzrsU5FwUeB7ZO6LMV+IZL2gmUmVkNgJktA+4AvjaDdV+w7qFREg6qinP9LENExHfpBH8t0Jryus1rS7fPl4HPAYnzvYmZ3WdmjWbW2NXVlUZZF6ZrYBRQ8IuIpBP8NkmbS6ePmd0JdDrndk/1Js65R5xzDc65hqqqqjTKujAKfhGRpHSCvw2oS3m9DGhPs887gV83szdJThHdYGbfvOhqp+FM8Bfl+fH2IiLzRjrBvwuoN7NVZpYD3A1sn9BnO/BRb3XPNUCfc67DOfd559wy59xK77ifOefunckBpKtrMBn8lcW6uCsiwRaeqoNzbszMPgnsAELAY865/WZ2v7d/G/A0cDvQDESAj89eyRena2CUotwwBTlTDllEJKOllYLOuadJhntq27aUbQd8Yoqf8Rzw3AVXOEO6BkY1vy8iQoDu3D01OEql1vCLiAQn+Dt1xi8iAgQk+J1znOgbYUlJvt+liIj4LhDB3z88RiQaZ2mZlnKKiAQi+I/3DgOwtExn/CIigQj+dgW/iMgZgQj+jj4v+Es11SMiEojgP947QnbIqCzSqh4RkUAEf3vvMDWl+WRlTfZZciIiwRKI4O/oG6ZG0zwiIkBAgr+9d4RaXdgVEQECEPyxeIIT/SPUliv4RUQgAMHfdnqYeMKxYlGh36WIiMwLGR/8b3YPAbByUYHPlYiIzA8ZH/xHTyWDf7mCX0QECELw90QoyAlRpTX8IiJAEIK/O8KKRYWYaQ2/iAgEIPjf7B7S/L6ISIqMDv54wtHaE9H8vohIiowO/vbeYWJxx0ot5RQROSOjg398KecKnfGLiJyR0cHf3DkIQH11sc+ViIjMHxkd/Ic7BykryKayKMfvUkRE5o2MDv7mk4PUVxdpKaeISIqMDX7nHK93DrBW0zwiImfJ2ODvHorSG4lRX13kdykiIvNKxgb/4ZPehd3FCn4RkVQZG/zNnQOAVvSIiEyUscF/uHOQ4twwi0v04WwiIqkyN/hPDrJ2sVb0iIhMlLnB3znA2irN74uITJRW8JvZrWbWZGbNZvbAJPvNzB709u8xs81ee52ZPWtmB81sv5l9eqYHMJnOgRFODUa5tKZkLt5ORGRBmTL4zSwEPATcBmwA7jGzDRO63QbUe4/7gIe99jHg951zlwLXAJ+Y5NgZd6C9H4ANSxX8IiITpXPGfzXQ7Jxrcc5FgceBrRP6bAW+4ZJ2AmVmVuOc63DOvQzgnBsADgK1M1j/pA50JINfZ/wiIm+XTvDXAq0pr9t4e3hP2cfMVgKbgBcnexMzu8/MGs2ssaurK42yzu1gxwC1ZfmU5mdP6+eIiGSidIJ/smUx7kL6mFkR8H3gM865/snexDn3iHOuwTnXUFVVlUZZ53agvU/TPCIi55BO8LcBdSmvlwHt6fYxs2ySof8t59yTF19qeiLRMVpODbFB0zwiIpNKJ/h3AfVmtsrMcoC7ge0T+mwHPuqt7rkG6HPOdVhyEf2jwEHn3JdmtPJzaDoxgHO6sCsici7hqTo458bM7JPADiAEPOac229m93v7twFPA7cDzUAE+Lh3+DuB3wL2mtmrXtt/d849PaOjSDF+YVdn/CIik5sy+AG8oH56Qtu2lG0HfGKS455n8vn/WXOwo5/ivDDLyvPn8m1FRBaMjLtz90B7P5fWlOijGkREziGjgj+ecBw6MaBpHhGR88io4D/aPUQkGteFXRGR88io4NeFXRGRqWVU8B/s6CecZazV1y2KiJxTRgX/gfZ+1lYXkZcd8rsUEZF5K7OCv6Nf0zwiIlNIax3/QhCLJ7h+bRXX1y/yuxQRkXktY4I/O5TF//7wRr/LEBGZ9zJqqkdERKam4BcRCRgFv4hIwCj4RUQCRsEvIhIwCn4RkYBR8IuIBIyCX0QkYCz55Vnzi5l1AUcv8vBK4NQMlrMQaMyZL2jjBY35Qq1wzlWl03FeBv90mFmjc67B7zrmksac+YI2XtCYZ5OmekREAkbBLyISMJkY/I/4XYAPNObMF7TxgsY8azJujl9ERM4vE8/4RUTkPBT8IiIBkzHBb2a3mlmTmTWb2QN+13MhzKzOzJ41s4Nmtt/MPu21V5jZv5rZYe+5POWYz3tjbTKzW1Lat5jZXm/fg2ZmXnuumX3Ha3/RzFbO+UAnYWYhM3vFzJ7yXmf0mM2szMyeMLND3p/3tQEY82e9v9f7zOzbZpaXaWM2s8fMrNPM9qW0zckYzexj3nscNrOPpVWwc27BP4AQcARYDeQArwEb/K7rAuqvATZ728XA68AG4G+AB7z2B4C/9rY3eGPMBVZ5Yw95+14CrgUM+BFwm9f+u8A2b/tu4Dt+j9ur5feA/wc85b3O6DED/wD8J287ByjL5DEDtcAbQL73+rvAf8y0MQPvAjYD+1LaZn2MQAXQ4j2Xe9vlU9br9/8IM/Qf/VpgR8rrzwOf97uuaYznB8BNQBNQ47XVAE2TjQ/Y4f03qAEOpbTfA3w1tY+3HSZ5d6D5PM5lwE+BG3gr+DN2zEAJyRC0Ce2ZPOZaoNULpjDwFHBzJo4ZWMnZwT/rY0zt4+37KnDPVLVmylTP+F+ucW1e24Lj/Qq3CXgRWOyc6wDwnqu9bucab623PbH9rGOcc2NAH+D3N9N/GfgckEhpy+Qxrwa6gK9701tfM7NCMnjMzrnjwBeBY0AH0Oece4YMHnOKuRjjRWVfpgS/TdK24NapmlkR8H3gM865/vN1naTNnaf9fMf4wszuBDqdc7vTPWSStgU1ZpJnapuBh51zm4AhklMA57Lgx+zNa28lOaWxFCg0s3vPd8gkbQtqzGmYyTFe1NgzJfjbgLqU18uAdp9quShmlk0y9L/lnHvSaz5pZjXe/hqg02s/13jbvO2J7WcdY2ZhoBTomfmRpO2dwK+b2ZvA48ANZvZNMnvMbUCbc+5F7/UTJP8hyOQx3wi84Zzrcs7FgCeB68jsMY+bizFeVPZlSvDvAurNbJWZ5ZC8+LHd55rS5l25fxQ46Jz7Usqu7cD4VfqPkZz7H2+/27vSvwqoB17yfp0cMLNrvJ/50QnHjP+sDwE/c96koB+cc593zi1zzq0k+ef1M+fcvWT2mE8ArWa2zmt6H3CADB4zySmea8yswKv1fcBBMnvM4+ZijDuAm82s3Pvt6mav7fzm+gLILF5YuZ3kapgjwBf8rucCa7+e5K9ne4BXvcftJOfwfgoc9p4rUo75gjfWJrwr/157A7DP2/d3vHV3dh7wPaCZ5MqB1X6PO6Xm9/DWxd2MHjNwJdDo/Vn/M8mVGJk+5j8FDnn1/iPJ1SwZNWbg2ySvYcRInoX/zlyNEfhtr70Z+Hg69eojG0REAiZTpnpERCRNCn4RkYBR8IuIBIyCX0QkYBT8IiIBo+AXEQkYBb+ISMD8f95bo77uyHYMAAAAAElFTkSuQmCC
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -15566,7 +15914,47 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[70]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[170]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sds</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[171]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
@@ -15585,13 +15973,13 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[70]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[171]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.11146721902489803</pre>
+<pre>0.11173973836346991</pre>
 </div>
 
 </div>
@@ -15603,7 +15991,7 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[172]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">weight_check</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
@@ -15627,7 +16015,7 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>1.0
-0.09995232161780246 0.0014897049705663234
+0.0999547547310976 0.001459684928494501
 </pre>
 </div>
 </div>
@@ -15639,7 +16027,7 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[173]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_check</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">)</span> <span class="o">-</span> <span class="n">nifty_standard_deviation</span>
@@ -15658,13 +16046,13 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[72]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[173]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>-0.0001969701570233278</pre>
+<pre>-0.00022181095919409852</pre>
 </div>
 
 </div>
@@ -15676,8 +16064,229 @@ var element = document.getElementById('04e870b0-9428-4b5d-be00-31b86e3a842a');
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="This-marks-the-completion-of-the-maximizing-using-gardient-descent-as-well.-for-this-learning-rate-the-maximum-sharpe-value-converges-at-sharpe-ratio-about-.1114(still-the-derivatives-were-not-0).-Maybe-we-can-a-better-result-with-the-little-less-learning-and-a-lot-more-iterations-(could-converge-the-previous-highest-.125).">This marks the completion of the maximizing using gardient descent as well. for this learning rate the maximum sharpe value converges at sharpe ratio about .1114(still the derivatives were not 0). Maybe we can a better result with the little less learning and a lot more iterations (could converge the previous highest .125).<a class="anchor-link" href="#This-marks-the-completion-of-the-maximizing-using-gardient-descent-as-well.-for-this-learning-rate-the-maximum-sharpe-value-converges-at-sharpe-ratio-about-.1114(still-the-derivatives-were-not-0).-Maybe-we-can-a-better-result-with-the-little-less-learning-and-a-lot-more-iterations-(could-converge-the-previous-highest-.125).">&#182;</a></h3><h4 id="But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.09995),-greater-than-0(min-:-0.0014),-,-and-sum-as-well-1">But we move on to checks standard deviation less than nifty, ratios less 0.1(max: 0.09995), greater than 0(min : 0.0014), , and sum as well 1<a class="anchor-link" href="#But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.09995),-greater-than-0(min-:-0.0014),-,-and-sum-as-well-1">&#182;</a></h4>
+<h3 id="This-marks-the-completion-of-the-maximizing-using-gardient-descent-as-well.-for-this-learning-rate-the-maximum-sharpe-value-converges-at-sharpe-ratio-about-.1114(still-the-derivatives-were-not-0).-Maybe-we-can-a-better-result-with-the-little-less-learning-and-a-lot-more-iterations-(could-converge-the-previous-highest-.125).">This marks the completion of the maximizing using gardient descent as well. for this learning rate the maximum sharpe value converges at sharpe ratio about .1114(still the derivatives were not 0). Maybe we can a better result with the little less learning and a lot more iterations (could converge the previous highest .125).<a class="anchor-link" href="#This-marks-the-completion-of-the-maximizing-using-gardient-descent-as-well.-for-this-learning-rate-the-maximum-sharpe-value-converges-at-sharpe-ratio-about-.1114(still-the-derivatives-were-not-0).-Maybe-we-can-a-better-result-with-the-little-less-learning-and-a-lot-more-iterations-(could-converge-the-previous-highest-.125).">&#182;</a></h3><h1 id="Maybe-as-we-cannot-get-the-weights-are-not-allowed-to-go-to-0-as-the-derivative-as-we-are-approaching-the-smaller-values-goes-to-goes-to-even-smaller-values.">Maybe as we cannot get the weights are not allowed to go to 0 as the derivative as we are approaching the smaller values goes to goes to even smaller values.<a class="anchor-link" href="#Maybe-as-we-cannot-get-the-weights-are-not-allowed-to-go-to-0-as-the-derivative-as-we-are-approaching-the-smaller-values-goes-to-goes-to-even-smaller-values.">&#182;</a></h1><h4 id="But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.09995),-greater-than-0(min-:-0.0014),-,-and-sum-as-well-1">But we move on to checks standard deviation less than nifty, ratios less 0.1(max: 0.09995), greater than 0(min : 0.0014), , and sum as well 1<a class="anchor-link" href="#But-we-move-on-to-checks-standard-deviation-less-than-nifty,-ratios-less-0.1(max:-0.09995),-greater-than-0(min-:-0.0014),-,-and-sum-as-well-1">&#182;</a></h4>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[174]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we create a function to use derivatives</span>
+<span class="k">def</span> <span class="nf">sharpe_ratio</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">returns</span><span class="p">,</span> <span class="n">rfi</span><span class="p">):</span>
+    <span class="n">ratios</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+    <span class="n">mean_returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">excess_mean_returns</span> <span class="o">=</span> <span class="n">mean_returns</span> <span class="o">-</span> <span class="n">daily_rfi</span>
+    <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">ratios</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">ratios</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">excess_mean_returns</span><span class="nd">@ratios</span><span class="o">/</span><span class="n">std_dev</span>
+<span class="c1"># We use the three condtions on the weights, checked here</span>
+<span class="k">def</span> <span class="nf">weight_check</span> <span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+    <span class="n">ratios</span> <span class="o">=</span> <span class="n">weights</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sums</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ratios</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ratios</span><span class="p">))</span>
+<span class="c1"># we can check the standard deviation condition here </span>
+<span class="k">def</span> <span class="nf">std_check</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">returns</span><span class="p">):</span>
+    <span class="n">ratios</span> <span class="o">=</span> <span class="n">weights</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">ratios</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">returns</span><span class="p">)),</span> <span class="n">ratios</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">std_dev</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="mf">0.02</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="c1"># right now the ratios are 1/50 = 0.02, which is within the limits</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.0009</span> <span class="c1"># roughly estimated it to be 1/100 of the intial weights</span>
+<span class="n">learnt_weights</span> <span class="o">=</span> <span class="mf">0.02</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">sds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sharpes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="mf">0.00001</span>
+<span class="c1"># we go for 1000 iterations or if the derivative is small enough(but no way to )</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+        <span class="n">new_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">new_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dw</span>
+        <span class="n">derivatives</span> <span class="o">=</span> <span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">new_weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">)</span> <span class="o">-</span> <span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">))</span><span class="o">/</span><span class="n">dw</span>
+        <span class="n">learnt_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">learning_rate</span><span class="o">*</span><span class="p">(</span><span class="n">derivatives</span><span class="p">),</span> <span class="mf">0.1</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)))</span>
+        <span class="n">learnt_weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0000009</span><span class="p">,</span><span class="n">learnt_weights</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">sharpes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sharpe_ratio</span><span class="p">(</span><span class="n">learnt_weights</span><span class="p">,</span><span class="n">returns</span><span class="p">,</span><span class="n">daily_rfi</span><span class="p">))</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">learnt_weights</span><span class="p">)</span>
+    <span class="n">sds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">std_check</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span><span class="n">returns</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>C:\Users\prakh\AppData\Local\Temp/ipykernel_7840/539076665.py:8: TqdmDeprecationWarning: This function will be removed in tqdm==5.0.0
+Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`
+  for k in tqdm_notebook(range(20000)):
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+
+
+
+<div id="16f6b910-a998-435a-9ec2-e0c8d591b634" class="jupyter-widgets jp-OutputArea-output ">
+<script type="text/javascript">
+var element = document.getElementById('16f6b910-a998-435a-9ec2-e0c8d591b634');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "dcab2d976fc547d7a56ff2e68e0db841", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weight_check</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[183]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">sharpes</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[183]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0.016047938846581514</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[179]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">weights</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[179]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>array([1.19899582e-05, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       1.19899582e-05, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 1.19899582e-05, 9.00000000e-07,
+       1.19899582e-05, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 1.19899582e-05, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 1.19899582e-05,
+       9.00000000e-07, 1.19899582e-05, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07, 9.00000000e-07, 9.00000000e-07,
+       9.00000000e-07, 9.00000000e-07])</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
